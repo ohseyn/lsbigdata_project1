@@ -14,3 +14,12 @@ df
 sns.countplot(data = df, x = 'class', hue = 'alive')
 plt.show()
 plt.clf()
+
+import sklearn.metrics
+sklearn.metrics.accuracy_score()
+
+import pydataset
+pydataset.data()
+
+df = pydataset.data('mtcars')
+df
