@@ -71,3 +71,9 @@ The `echo: false` option disables the printing of code (only output is displayed
 ## 링크
 
 [슬기로운 통계생활](https://statisticsplaybook.com/)
+
+## 이미지
+
+![위키피디아 흑요석](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/ObsidianOregon.jpg/360px-ObsidianOregon.jpg)
+
+![위키피디아 흑요석](quarto_dot_files/libs/img/img1.jpg)
