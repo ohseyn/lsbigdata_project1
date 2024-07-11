@@ -30,6 +30,8 @@ Quarto enables you to weave together content and executable code into a finished
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{python}
+#| echo: true
+#| eval: true
 1 + 1
 ```
 
@@ -41,8 +43,31 @@ When you click the **Render** button a document will be generated that includes 
 You can add options to executable code like this
 
 ```{python}
-#| echo: false
+#| echo: true
+#| eval: false
 2 * 2
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+## 각주
+
+이것은 간단한 각주[^1]입니다.
+
+[^1]: 이것은 참조된 텍스트입니다.
+
+## 취소선, 굵게, 이탤릭
+
+- **굵게**는 별표 두 개로 감싸기
+- *이탤릭*은 하나로 감싸기
+- ~~취소선~~은 물결로 감싸기
+
+## 체크박스
+
+- [x] ~~화분 물 주기~~
+- [ ] 우편함 확인
+- [ ] 밀린 일기 작성
+
+## 링크
+
+[슬기로운 통계생활](https://statisticsplaybook.com/)
