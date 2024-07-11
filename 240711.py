@@ -25,7 +25,7 @@ print("Numbers:", numbers)
 print("Mixed List:", mixed_list)
 
 # 튜플 생성 예제
-a_tp= (10, 20, 30, 40, 50)
+a_tp= (10, 20, 30, 40, 50) # a_tp = 10, 20, 30, 40, 50
 a_ls = [10, 20, 30, 40, 50]
 a_tp[1] = 25
 a_tp
@@ -49,7 +49,7 @@ print("좌표:", a_ls[1:3]) # 해당 인덱스 이상 & 미만
 
 # 사용자 정의 함수
 def min_max(numbers):
- return min(numbers), max(numbers)
+ return min(numbers), max(numbers) #min, max 이런 형태라서 튜플로 됨
 
 a = [1, 2, 3, 4, 5]
 type(a)
@@ -137,3 +137,29 @@ set_example = {'a', 'b', 'c'} # 집합(중괄호)
 # 딕셔너리로 변환 시, 일반적으로 집합 요소를 키 또는 값으로 사용
 dict_from_set = {key: True for key in set_example}
 print("Dictionary from set:", dict_from_set)
+
+# soft copy
+a=[1, 2, 3]
+a
+
+b = a
+b # [1, 2, 3]
+
+a[1] = 4
+a # [1, 4, 3]
+
+b  # [1, 4, 3]
+# a와 b 동일한 주소
+id(a) # 메모리 주소(메모리 위치에 대한 식별자, 컴퓨터 프로그램이나 하드웨어 장치가 데이터를 저장하고 나중에 이를 가져오는 장소)
+id(b) 
+
+# deep copy
+a = [1, 2, 3]
+a
+
+b = a[:] # 1번
+b = a.copy() # 2번
+
+a[1] = 4
+a
+b
