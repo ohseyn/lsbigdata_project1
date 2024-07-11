@@ -77,3 +77,20 @@ The `echo: false` option disables the printing of code (only output is displayed
 ![위키피디아 흑요석](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/ObsidianOregon.jpg/360px-ObsidianOregon.jpg)
 
 ![위키피디아 흑요석](quarto_dot_files/libs/img/img1.jpg)
+
+```
+![](이미지 주소)
+```
+
+## 수식 입력 방법
+
+* 인라인 수식: $ 하나로 감싸준다. (본문에 입력)
+* 디스플레이 수식: $ 두 개로 감싸준다. (독립적인 문단)
+
+문장 안에 숫자 $5$를 넣어보자.
+
+여러 숫자들을 따로 떼어 표시하자.
+
+$$
+x^2 + \sqrt{y^3}
+$$
