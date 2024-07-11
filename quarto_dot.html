@@ -107,18 +107,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
 <p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
 </section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
+<section id="파이썬-코드-링크" class="level2">
+<h2 class="anchored" data-anchor-id="파이썬-코드-링크">파이썬 코드 링크</h2>
+<p>파이썬 코드느 청크는 다음과 같은 단축키를 통해서 넣을 수 있음. * 단축키: <code>Ctrl + Alt + I</code></p>
+</section>
+<section id="코드-정크-종류" class="level2">
+<h2 class="anchored" data-anchor-id="코드-정크-종류">코드 정크 종류</h2>
+<p>2가지 종류가 있음.</p>
+<ol type="1">
+<li>인라인 코드정크: 백틱(`) 하나로 묶음.</li>
+<li>디스플레이 코드정크: 백틱(`) 세 개로 묶음.</li>
+</ol>
+</section>
+<section id="실행가능한-코드정크" class="level2">
+<h2 class="anchored" data-anchor-id="실행가능한-코드정크">실행가능한 코드정크</h2>
+<p>백틱 뒤에 <code>{python}</code> 을 붙여주면 됨.</p>
 <p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div id="9d11a8a3" class="cell" data-execution_count="1">
+<div id="d0ca9883" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>2</code></pre>
 </div>
 </div>
+</section>
+<section id="코드-정크-실행-옵션" class="level2">
+<h2 class="anchored" data-anchor-id="코드-정크-실행-옵션">코드 정크 실행 옵션</h2>
+<ul>
+<li>echo 옵션: 코드를 문서에 보여줌.</li>
+<li>eval 옵션: 코드를 돌릴 것인가, 그냥 둘 것인가를 결정.</li>
+</ul>
 <p>You can add options to executable code like this</p>
-<div id="249b08da" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="32b2be12" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>4</code></pre>
 </div>
 </div>
