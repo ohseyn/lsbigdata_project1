@@ -8,21 +8,25 @@ df['english'] # 0    90
               # 2    60
               # 3    70
               # Name: english, dtype: int64
+df[['name', 'english']]
 type(df['english']) # pandas.core.series.Series
 sum(df['english'])/4
 sum(df['math'])/4
 
-df_fruit = pd.DataFrame({'제품': ['사과', '딸기', '수박'], 
-                         '가격': [1800, 1500, 3000], '판매량': [24, 38, 13]})
-df_fruit
-sum(df_fruit['가격'])/len(df_fruit)
-sum(df_fruit['판매량'])/len(df_fruit)
-
+!pip install openpyxl
+df_exam = pd.read_excel('Data/excel_exam.xlsx')
 df_exam = pd.read_excel('C:/Doit_Python-main/Data/excel_exam.xlsx')
 df_exam
+
+df_exam['math']
+df_exam['english']
+df_exam['science']
+
 sum(df_exam['english'])/20
 sum(df_exam['science'])/20
 len(df_exam)
+df_exam.shape # (20, 5)
+df_exam.size
 sum(df_exam['english'])/len(df_exam)
 sum(df_exam['science'])/len(df_exam)
 
@@ -38,6 +42,41 @@ df_exam_novar = pd.read_excel('C:/Doit_Python-main/Data/excel_exam_novar.xlsx')
 df_exam_novar
 df_exam_novar = pd.read_excel('C:/Doit_Python-main/Data/excel_exam_novar.xlsx', header = None)
 df_exam_novar
+
+df_exam = pd.read_excel('Data/excel_exam.xlsx', sheet_name = 'Sheet2')
+df_exam
+
+# 없는 칼럼 생성
+df_exam['total'] = df_exam['math'] + df_exam['english'] + df_exam['science']
+df_exam
+
+df_exam['mean'] = df_exam['total']/3
+df_exam
+
+import numpy as np
+df_exam[(df_exam["math"] > 50) & (df_exam["english"] > 50)]
+df_exam[(df_exam["math"] > sum(df_exam["math"])/20) & (df_exam["english"] < sum(df_exam["english"])/20)]
+mean_m = np.mean(df_exam["math"])
+mean_e = np.mean(df_exam["english"])
+df_exam[(df_exam["math"] > mean_m) & (df_exam["english"] < mean_e)]
+df_exam[df_exam["nclass"] == 3]
+df_exam[df_exam["nclass"] == 3][["math", "english", "science"]]
+df_nc3 = df_exam[df_exam["nclass"] == 3]
+df_nc3[["math", "english", "science"]]
+df_nc3[1:2]
+df_exam
+df_exam[:10]
+df_exam[7:16]
+df_exam[0:10:2]
+df_exam.sort_values("math", ascending = False)
+df_exam.sort_values(["nclass", "math"], ascending=[True, False])
+
+a = np.array([4, 2, 5, 3, 6])
+a[2]
+np.where(a>3) # 튜플
+np.where(a>3, "Up", "Down") # numpy.array
+df_exam["updown"] = np.where(df_exam["math"] > 50, "Up", "Down")
+df_exam
 
 df_csv_exam = pd.read_csv('C:/Doit_Python-main/Data/exam.csv')
 df_csv_exam
