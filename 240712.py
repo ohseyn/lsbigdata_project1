@@ -99,10 +99,11 @@ vecl = np.arange(100)
 vecl - np.arange(1, 101, 0.5)
 vecl
 
-arr2 = np.arange(0, 2, 0.5)
+arr2 = np.arange(0, 2, 0.5) # array([0. , 0.5, 1. , 1.5])
 arr2
 
-linear_space1 = np.linspace(0, 1, 10)
+linear_space1 = np.linspace(0, 1, 10) # arrayarray([0.        , 0.11111111, 0.22222222, 0.33333333, 0.44444444,
+                                      #             0.55555556, 0.66666667, 0.77777778, 0.88888889, 1.        ])
 linear_space1
 
 linear_space1 = np.linspace(0, 100, 100)
@@ -136,7 +137,8 @@ sum(vec4)
 sum(np.arange(1, 35673, 2))
 
 b = np.array([[1, 2, 3], [4, 5, 6]])
-b
+b #array([[1, 2, 3],
+  #      [4, 5, 6]])
 length = len(b) 
 shape = b.shape
 size = b.size
@@ -146,10 +148,50 @@ a = np.array([1, 2])
 b = np.array([1, 2, 3, 4])
 a+b
 
-np.tile(a, 2) + b
-np.repeat(a, 2) + b
+np.tile(a, 2) + b # tile: ([1, 2, 1, 2])
+np.repeat(a, 2) + b # repeat: ([1, 1, 2, 2])
 b == 3
 
 # 10보다 작은 수 중에서 7로 나눠서 나머지가 3인 숫자들의 개수는?
-sum((np.arange(1, 10)%7) == 3)
+sum((np.arange(1, 10)%7) == 3) #True를 1로 계산하기 때문에에
 sum((np.arange(1, 35673)%7)==3)
+
+a = np.array([1.0, 2.0, 3.0])
+b = 2.0
+a * b
+
+a.shape # (3,)
+b.shape # 숫자 하나라서 존재하지 않음
+
+# 2차원 배열 생성
+matrix = np.array([[ 0.0, 0.0, 0.0],
+                   [10.0, 10.0, 10.0],
+                   [20.0, 20.0, 20.0],
+                   [30.0, 30.0, 30.0]])
+matrix.shape #(4, 3) 4행 3열
+# 1차원 배열 생성
+vector = np.array([1.0, 2.0, 3.0])
+vector.shape #(3,)
+# 브로드캐스팅을 이용한 배열 덧셈
+result = matrix + vector
+print("브로드캐스팅 결과:\n", result)
+# 브로드캐스팅 결과:
+# [[ 1.  2.  3.]
+# [11. 12. 13.]
+# [21. 22. 23.]
+# [31. 32. 33.]]
+
+vector = np.array([1.0, 2.0, 3.0, 4.0]).reshape(4, 1) # array([[1.],
+                                                      #        [2.],
+                                                      #        [3.],
+                                                      #        [4.]])
+vector = np.array([1.0, 2.0, 3.0, 4.0]).reshape(2, 2) # array([[1., 2.],
+                                                      #        [3., 4.]])
+vector = np.array([1.0, 2.0, 3.0, 4.0]).reshape(1, 4) # array([[1., 2., 3., 4.]])
+vector
+vector.shape #(4, 1)
+vector = np.array([1.0, 2.0, 3.0, 4.0])
+vector.shape #(4,)
+# 브로드캐스팅을 이용한 배열 덧셈
+result = matrix + vector
+print("브로드캐스팅 결과:\n", result)
