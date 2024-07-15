@@ -68,8 +68,8 @@ df_exam
 df_exam[:10]
 df_exam[7:16]
 df_exam[0:10:2]
-df_exam.sort_values("math", ascending = False)
-df_exam.sort_values(["nclass", "math"], ascending=[True, False])
+df_exam.sort_values("math", ascending = False) #내림차순
+df_exam.sort_values(["nclass", "math"], ascending=[True, False]) #오름차순, 내림차순
 
 a = np.array([4, 2, 5, 3, 6])
 a[2]
