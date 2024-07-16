@@ -81,6 +81,7 @@ x
 type(x) # 튜플(원소는 하나인 튜플)
 x[0] 
 type(x[0]) # numpy.ndarray
+my_index # 위치
 my_index = x[0][0]
 a[my_index]
 a[np.where(a>22000)][0]

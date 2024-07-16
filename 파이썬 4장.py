@@ -53,6 +53,8 @@ df_exam
 df_exam['mean'] = df_exam['total']/3
 df_exam
 
+
+# 복습 다시 해야 함
 import numpy as np
 df_exam[(df_exam["math"] > 50) & (df_exam["english"] > 50)]
 df_exam[(df_exam["math"] > sum(df_exam["math"])/20) & (df_exam["english"] < sum(df_exam["english"])/20)]

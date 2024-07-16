@@ -96,7 +96,7 @@ b[2] # np.float64(3.0) <- 실수(float)
 
 vecl = np.array([1, 2, 3, 4, 5])
 vecl = np.arange(100)
-vecl - np.arange(1, 101, 0.5)
+vecl = np.arange(1, 101, 0.5)
 vecl
 
 arr2 = np.arange(0, 2, 0.5) # array([0. , 0.5, 1. , 1.5])
@@ -122,7 +122,7 @@ vec2
 vec3 = np.arange(0, 100)
 -vec3
 
-np.tile(vec1, 3)
+np.tile(vec1, 3) # 전체 반복
 vec1 *2
 
 vec1 + vec1
@@ -139,9 +139,9 @@ sum(np.arange(1, 35673, 2))
 b = np.array([[1, 2, 3], [4, 5, 6]])
 b #array([[1, 2, 3],
   #      [4, 5, 6]])
-length = len(b) 
-shape = b.shape
-size = b.size
+length = len(b) # 2
+shape = b.shape # (2,3)
+size = b.size # 6
 length, shape, size
 
 a = np.array([1, 2])
