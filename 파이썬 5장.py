@@ -11,7 +11,7 @@ import numpy as np
 exam = pd.read_csv("data/exam.csv")
 exam.head(10) # 기본은 다섯 번째 행까지 출력, 괄호에 숫자를 입력하면 입력한 행까지 출력
 exam.tail(10) # 기본은 뒤에서 다섯 번째 행까지 출력, 괄호에 숫자를 입력하면 뒤에서부터 입력한 행까지 출력
-exam.shape # 튜플 # 몇 행, 몇 열열
+exam.shape # 튜플 # 몇 행, 몇 열
 exam.shape() # 에러
 exam.info() # 변수 속성
 exam.describe() # 요약 통계량 
