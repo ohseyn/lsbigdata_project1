@@ -1,8 +1,15 @@
 import numpy as np
 # 벡터 슬라이싱 예제, a를 랜덤하게 채움
 np.random.seed(2024) # 랜덤값 보정
+# 랜덤값 중에서 중복 되는 값 없이 출력하는 법
+a = np.random.choice(np.arange(1, 21), 10, replace = False)
+a = np.random.choice(np.arange(1, 4), 100, True, np.array([2/5, 2/5, 1/5]))
+sum(a == 1)
+sum(a == 2)
+sum(a == 3)
 a = np.random.randint(1, 21, 10) # 1에서 21까지 숫자 중 10개의 숫자 발생
 print(a)
+type(a) # numpy.ndarray
 # 두 번째 값 추출
 print(a[1])
 a[::] #처음부터 끝까지 == a[::1]
