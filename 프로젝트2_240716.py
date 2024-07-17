@@ -73,4 +73,4 @@ season21 = data_2021.groupby('계절').agg(계절별화재=('계','sum'))
 season22 = data_2022.groupby('계절').agg(계절별화재=('계','sum'))
 
 # 그래프
-# 20년도 그래프를 그림-> 21년도->22년도(같이 나오는 건 chatgpt)
+

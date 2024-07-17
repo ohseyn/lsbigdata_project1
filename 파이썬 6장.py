@@ -62,3 +62,31 @@ mpg.query('category == "suv"')\
         .agg(mean_tot = ("total", "mean"))\
         .sort_values("mean_tot", ascending = False)\
         .head()
+
+test1 = pd.DataFrame({"id" : [1, 2, 3, 4, 5], "midterm" :[60, 80, 70, 90, 85]})
+test2 = pd.DataFrame({"id" : [1, 2, 3, 40, 5], "final" :[70, 83, 65, 95, 80]})
+
+# Left Join
+total = pd.merge(test1, test2, how = "left", on = "id") # 4번 학생 final: NaN
+
+# Right Join
+total = pd.merge(test1, test2, how = "right", on = "id") # 40번 학생 midterm: NaN
+
+# Inner Join
+total = pd.merge(test1, test2, how = "inner", on = "id") # 공통적으로 있는 애들만 남김(필터도 있는 느낌)
+
+# Outer Join
+total = pd.merge(test1, test2, how = "outer", on = "id") # 합집합(중복 먼저, 그 뒤에 중복 아닌 애들 추가)
+
+name = pd.DataFrame({"nclass" : [1, 2, 3, 4, 5], "teacher" :["kim", "lee", "park", "choi", "jung"]})
+
+exam_new = pd.merge(exam, name, how = "left", on = "nclass")
+
+# 데이터를 세로로 쌓는 법(데이터 변수명이 같아야 함. 다르면 pd.rename()으로 똑같이 맞춰야 함)
+
+score1 = pd.DataFrame({"id" : [1, 2, 3, 4, 5], "score" :[60, 80, 70, 90, 85]})
+score2= pd.DataFrame({"id" : [6, 7, 8, 9, 10], "score" :[70, 83, 65, 95, 80]})
+
+score_all = pd.concat([score1, score2])
+
+pd.concat([test1, test2], axis=1)
