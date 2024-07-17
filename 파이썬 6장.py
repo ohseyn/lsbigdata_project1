@@ -51,7 +51,6 @@ exam2.agg(mean_math = ("math", "mean"))
 exam2.groupby("nclass").agg(mean_math = ("math", "mean"), mean_english = ("english", "mean"), 
         mean_science = ("science", "mean"))
 
-
 import pydataset
 mpg = pd.read_csv("data/mpg.csv")
 mpg

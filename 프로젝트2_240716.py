@@ -5,6 +5,14 @@ import matplotlib.pyplot as plt
 
 ## 데이터 전처리
 
+# 한글
+from matplotlib import font_manager, rc
+
+# 한글 폰트 설정
+font_path = "C:/Windows/Fonts/malgun.ttf"  # 예시: 윈도우 시스템에 있는 맑은 고딕 폰트 경로
+font_name = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font_name)
+
 # 데이터 불러오기
 df = pd.read_csv("C:/Data/발화요인에_대한_월별_화재발생현황.csv")
 df
@@ -58,8 +66,6 @@ columns_to_convert = ['계', '전기적요인', '기계적요인', '화학적요
 # 각 열에 대해 pd.to_numeric 적용
 for column in columns_to_convert:
     data[column] = pd.to_numeric(data[column])
-    
-data.info()
 
 # 파생 변수 만들기
 data["계절"] = np.where(data["항목"].isin(["3월", "4월", "5월"]), "spring", 
@@ -81,5 +87,20 @@ plt.title('Seasonal Fire Incidents')
 plt.xlabel('Season')
 plt.ylabel('Number of Incidents')
 
+plt.show()
+plt.clf()
+
+# 연도별 평균 데이터 시리즈
+data_mean = data[columns_to_convert].sum()/3
+data_mean = data_mean.drop("계")
+
+# 막대그래프 생성
+data_mean.plot.bar(rot=45)
+plt.title('Yearly Average of Fire Incident Causes')
+plt.xlabel('Cause of Fire')
+plt.ylabel('Mean Value')
+plt.tight_layout()
+
+# 그래프 보여주기
 plt.show()
 plt.clf()
