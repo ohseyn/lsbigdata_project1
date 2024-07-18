@@ -164,3 +164,21 @@ def Y(num, p):
 
 sum(Y(num=100, p=0.5))/100
 Y(10000, 0.5).mean()
+
+# 새로운 확률변수 가질 수 있는 값: 0, 1, 2
+# 확률: 20%, 50%, 30%
+
+def Z(num, p, q):
+    x = np.random.rand(num)
+    return np.where(x < p, 0, np.where(x < q, 1, 2))
+
+Z(100, 0.2, 0.7).mean()
+# 0.7(0.2 + 0.5)인 게 중요!
+
+p = np.array([0.2, 0.5, 0.3])
+def Z(p):
+    x = np.random.rand(1)
+    p_cumsum = p.cumsum()
+    return np.where(x < p_cumsum[0], 0, np.where(x < p_cumsum[1], 1, 2))
+
+Z(p)
