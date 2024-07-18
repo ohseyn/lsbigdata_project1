@@ -4,7 +4,6 @@ import numpy as np
 # 두 개의 벡터를 합쳐 행렬 생성
 matrix = np.column_stack((np.arange(1, 5), np.arange(12, 16))) # numpy.ndarray
 matrix = np.vstack((np.arange(1, 5), np.arange(12, 16)))
-print("행렬:\n", matrix)
 
 np.zeros(5)
 np.zeros((5,4))
@@ -14,7 +13,7 @@ np.arange(1, 7).reshape((2, -1))
 
 # 0에서부터 99까지 수 중 랜덤하게 50개 숫자를 뽑아서 5 by 10 행렬을 만드세요(정수)
 np.random.seed(2024)
-mat_a = np.random.randint(0, 100, 50).reshape((5, 10), order = "F")
+mat_a = np.random.randint(0, 100, 50).reshape((5, 10), order = "F") # F는 열대로 채워짐
 mat_a[2, 3]
 mat_a[0:2, 3] # 행은 0, 1 두 개, 행은 3인 수들
 mat_a[1:3, 1:4]
@@ -44,7 +43,7 @@ import matplotlib.pyplot as plt
 # 난수 생성하여 3x3 크기의 행렬 생성
 np.random.seed(2024)
 img1 = np.random.rand(3, 3)
-print("이미지 행렬 img1:\n", img1)
+
 # 행렬을 이미지로 표시
 # 0에 가까울수록 검은색, 1에 가까울수록 흰색
 plt.imshow(img1, cmap='gray', interpolation='nearest') # 숫자를 색으로 변환
@@ -66,7 +65,7 @@ urllib.request.urlretrieve(img_url, "jelly.png")
 import imageio
 # 이미지 읽기
 jelly = imageio.imread("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/jelly.png")
-print("이미지 클래스:", type(jelly))
+print("이미지 클래스:", type(jelly)) # numpy.ndarray
 print("이미지 차원:", jelly.shape) # (88, 50, 4) 88x50이 4장 겹쳐있음(3차원)
 print("이미지 첫 4x4 픽셀, 첫 번째 채널:\n", jelly[:4, :4, 0])
 # 첫 3개의 채널은 빨강, 녹색, 파랑의 색깔 강도를 숫자로 표현, 마지막 채널은 투명도(opacity)
@@ -93,7 +92,6 @@ my_array = np.array([mat1, mat2])
 my_array.shape # (2, 2, 3) 2행 3열이 2장
 
 first_slice = my_array[0, :, :]
-first_slice
 
 filtered_slice = my_array[:, :, :-1] # 열 첫 번째에서 마지막 2번째까지만 출력(마지막 열 제외)
 
@@ -121,8 +119,8 @@ jelly.shape # (88, 50, 4)
 # numpy 배열 메서드
 a = np.array([[1, 2, 3], [4, 5, 6]])
 a.sum() # np.int64(21)
-a.sum(axis=0) # array([5, 7, 9])
-a.sum(axis=1) # array([ 6, 15])
+a.sum(axis=0) # array([5, 7, 9]), 열
+a.sum(axis=1) # array([ 6, 15]), 행
 a.mean() # np.float64(3.5)
 a.mean(axis=0) # array([2.5, 3.5, 4.5])
 a.mean(axis=1) # array([2., 5.])
