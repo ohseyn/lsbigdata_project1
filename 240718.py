@@ -180,15 +180,3 @@ def Z(p):
     return np.where(x < p_cumsum[0], 0, np.where(x < p_cumsum[1], 1, 2))
 
 Z(p)
-
-# E[X]
-sum(np.arange(4) * np.array([1, 2, 2, 1])/6)
-
-# 전체 나온 것의 x가 나온 비율(p)
-def Z():
-    x = np.random.rand(1)
-    p_cumsum = p.cumsum()
-    return np.where(x < p_cumsum[0], 0, np.where(x < p_cumsum[1], 1, 2))
-
-p = np.array([0.2, 0.5, 0.3])
-Z()
