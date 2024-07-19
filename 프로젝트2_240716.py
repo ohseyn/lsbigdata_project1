@@ -78,6 +78,7 @@ data['계절'] = pd.Categorical(data['계절'], categories=["spring", "summer", 
                               
 # 계절별 화재 발생횟수 데이터프레임 생성
 seasonal_data = data.groupby(["year", "계절"]).agg(계절별화재 = ("계", "sum"))
+seasonal_data.shape
 
 # 그래프 시각화
 plt.figure(figsize=(12, 6))
