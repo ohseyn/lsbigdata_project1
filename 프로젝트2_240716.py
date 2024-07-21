@@ -137,23 +137,19 @@ data_2021
 data_2022
 
 data_all = pd.concat([data_2020, data_2021,data_2022])
-data_all
 data_all = data_all.drop(columns=['year'])
 data_all = data_all.drop(columns=['계'])
-data_all
 
 # 요인별 평균 내기
 data_all = data_all.transpose()
 data_all.columns
 data_all = data_all.drop("항목", axis=0)
 data_all = data_all.drop("계절", axis=0)
-data_all
 
 data_all=data_all.astype(int)
 data_all.info()
 
 data_all["total"] = data_all.sum(axis=1)/3
-data_all
 
 ## 행 밑에 새로운 행(total)추가하는 방법
 #data_all.loc["total"] = data_all.sum()
@@ -181,37 +177,64 @@ plt.clf()
 # 데이터전처리
 # 데이터 불러오기
 damage = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_인명피해현황.csv")
-damage
-damage.columns
 
 # 연도별 나누기(20/21/22년도)
+# 열 이름 바꾸기(기존 열 삭제, 첫번째 행을 열로)
+# 필요없는 행 제거
 damage_20 = damage[['항목'] + damage.filter(like='2020').columns.tolist()]
-damage_20
 damage_21 = damage[['항목'] + damage.filter(like='2021').columns.tolist()]
-damage_21
 damage_22 = damage[['항목'] + damage.filter(like='2022').columns.tolist()]
-damage_22
 
-damage_20.columns = damage_20.iloc[0] #0번째 행을 열로
-damage_20
-
-damage_21.columns = damage_21.iloc[0] #0번째 행을 열로
-damage_21
-
-damage_22.columns = damage_22.iloc[0] #0번째 행을 열로
-damage_22
-
+damage_20.columns = damage_20.iloc[0]
 damage_20 = damage_20[1:3]
-damage_20
 damage_20 = damage_20.reset_index(drop=True)
-damage_20
+damage_20 = damage_20.drop(columns=['항목','계'])
 
+damage_21.columns = damage_21.iloc[0]
 damage_21 = damage_21[1:3]
-damage_21
 damage_21 = damage_21.reset_index(drop=True)
-damage_21
+damage_21 = damage_21.drop(columns=['항목','계'])
 
+damage_22.columns = damage_22.iloc[0]
 damage_22 = damage_22[1:3]
-damage_22
 damage_22 = damage_22.reset_index(drop=True)
-damage_22
+damage_22 = damage_22.drop(columns=['항목', '계', '제품결함'])
+
+# 행, 열 바꾸기
+damage_20 = damage_20.transpose()
+damage_21 = damage_21.transpose()
+damage_22 = damage_22.transpose()
+
+# 데이터 합치기
+damage_total = pd.concat([damage_20, damage_21[1], damage_22[1]], axis=1)
+damage_total.info()
+damage_total = damage_total.drop(0, axis=1)
+damage_total=damage_total.astype(int)
+damage_total.info()
+
+# 사망, 부상 나누기
+damage_death = damage_total.iloc[::2]
+damage_injury = damage_total.iloc[1::2]
+
+# 사망, 부상 합 구하기
+damage_death["total"] = damage_death.sum(axis=1)
+damage_injury["total"] = damage_injury.sum(axis=1)
+
+# 사망, 부상 합 구해서 평균 구하기
+damage_death["mean"] = damage_death["total"]/3
+damage_injury["mean"] = damage_injury["total"]/3
+
+# 사망율, 부상율 구하기
+damage_death["percentage"] = (damage_death["mean"] / data_all["total"])*100
+damage_injury["percentage"] = (damage_injury["mean"] / data_all["total"])*100
+
+# 그래프 그리기
+damage_death["percentage"].plot.bar(rot=0)
+plt.xticks(fontsize=5, rotation=20)
+plt.show()
+plt.clf()
+
+damage_injury["percentage"].plot.bar(rot=0)
+plt.xticks(fontsize=5, rotation=20)
+plt.show()
+plt.clf()
