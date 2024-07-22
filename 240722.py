@@ -16,8 +16,8 @@ numbers = [1, 2, 3, 4, 5]
 range_list = list(range(5))
 range_list[3] = "LS 빅데이터 스쿨"
 range_list[2] = "ohseyn"
-range_list[1] = ["1st", "2nd", "3rd"]
-range_list[1][2]
+range_list[1] = ["1st", "2nd", "3rd"] # [0, ['1st', '2nd', '3rd'], 'ohseyn', 'LS 빅데이터 스쿨', 4]
+range_list[1][2] # '3rd'
 
 # 리스트 내포(comprehension)
 # 1. 대괄호로 쌓여져 있다. -> 리스트
