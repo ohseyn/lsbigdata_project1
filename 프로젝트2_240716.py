@@ -9,13 +9,8 @@ df.columns
 
 ## 데이터 전처리
 data_2020 = df[['항목'] + df.filter(like='2020').columns.tolist()]
-data_2020
-
 data_2021 = df[['항목'] + df.filter(like='2021').columns.tolist()]
-data_2021
-
 data_2022 = df[['항목'] + df.filter(like='2022').columns.tolist()]
-data_2022
 
 # 제품결함 열(2022.11) 없애줌
 data_2022 = data_2022.drop(columns = "2022.11")
@@ -23,28 +18,19 @@ data_2022.columns
 
 # 0번째 행을 열로 가져오기
 data_2020.columns = data_2020.iloc[0] #0번째 행을 열로
-data_2020
 
 data_2021.columns = data_2021.iloc[0] #0번째 행을 열로
-data_2021
 
 data_2022.columns = data_2022.iloc[0] #0번째 행을 열로
-data_2022
 
 data_2020 = data_2020[2:]
-data_2020
 data_2020 = data_2020.reset_index(drop=True)
-data_2020
 
 data_2021 = data_2021[2:]
-data_2021
 data_2021 = data_2021.reset_index(drop=True)
-data_2021
 
 data_2022 = data_2022[2:]
-data_2022
 data_2022 = data_2022.reset_index(drop=True)
-data_2022
 
 data_2022.info() # 데이터타입 확인
 
@@ -58,48 +44,31 @@ columns_to_convert = ['계', '전기적요인', '기계적요인',
 for column in columns_to_convert:
     data_2020[column] = pd.to_numeric(data_2020[column])
 
-data_2020.info()
-
 for column in columns_to_convert:
     data_2021[column] = pd.to_numeric(data_2021[column])
 
-data_2021.info()
-
 for column in columns_to_convert:
     data_2022[column] = pd.to_numeric(data_2022[column])
-
-data_2022.info()
 
 # 파생변수 만들기
 data_2020["계절"] = np.where(data_2020["항목"].isin(["3월", "4월", "5월"]),"spring",
                     np.where(data_2020["항목"].isin(["6월", "7월", "8월"]),"summer",
                     np.where(data_2020["항목"].isin(["9월", "10월", "11월"]),"fall",
                     "winter")))
-data_2020
 
 data_2021["계절"] = np.where(data_2021["항목"].isin(["3월", "4월", "5월"]),"spring",
                     np.where(data_2021["항목"].isin(["6월", "7월", "8월"]),"summer",
                     np.where(data_2021["항목"].isin(["9월", "10월", "11월"]),"fall",
                     "winter")))
 
-data_2021
-
 data_2022["계절"] = np.where(data_2022["항목"].isin(["3월", "4월", "5월"]),"spring",
                     np.where(data_2022["항목"].isin(["6월", "7월", "8월"]),"summer",
                     np.where(data_2022["항목"].isin(["9월", "10월", "11월"]),"fall",
                     "winter")))
 
-data_2022
-
 season_20 = data_2020.groupby('계절').agg(계절별화재=('계','sum'))
-season_20
-season_20.info() # 데이터프레임 형식임!
-
 season_21 = data_2021.groupby('계절').agg(계절별화재=('계','sum'))
-season_21
-
 season_22 = data_2022.groupby('계절').agg(계절별화재=('계','sum'))
-season_22
 
 # 그래프
 # 20년도 그래프를 그림- > 21년도그림 -> 22년도그림 (같이 나오게:지피티한테 물어보기)
@@ -110,7 +79,6 @@ season_22 = season_22.rename(columns={"계절별화재" : "2022"})
 
 # 열로 합치기
 season = pd.concat([season_20,season_21,season_22], axis=1)
-season
 
 # 계절 순서를 '봄', '여름', '가을', '겨울'로 재정렬
 season = season.loc[['spring', 'summer', 'fall', 'winter']]
@@ -118,7 +86,6 @@ season = season.loc[['spring', 'summer', 'fall', 'winter']]
 ## 그래프 시각화
 ## 연도별, 계절별 그래프
 import matplotlib.pyplot as plt
-#plt.clf()
 
 plt.figure(figsize=(6, 6))
 plt.plot(season.index, season['2020'], marker='o', label='2020')
