@@ -25,3 +25,46 @@ plt.ylabel("Frequency")
 plt.grid(False)
 plt.show()
 plt.clf()
+
+x = np.arange(33)
+sum(x)/33
+sum((x-16) * 1/33)
+(x-16)**2
+
+np.unique((x-16)**2)
+np.unique((x-16)**2) * (2/33)
+sum(np.unique((x-16)**2) * (2/33))
+
+# E[X**2]
+sum(x**2 * (1/33))
+
+# E[(X-E(X))**2] = E[X**2 - 2*X*E(X) + E(X)**2]
+
+# Var(X) = E[X**2] - (E[X])**2
+sum(x**2 * (1/33)) - (16**2)
+
+x = np.arange(4)
+pro_x = np.array([1/6, 2/6, 2/6, 1/6])
+pro_x
+
+# 기대값
+Ex = sum(x * pro_x)
+# 제곱 기대값
+Exx = sum(x**2 * pro_x)
+
+# 분산
+Exx - Ex**2
+sum(((x - Ex)**2)*pro_x)
+
+x = np.arange(99)
+pro_x = np.concatenate((np.arange(1, 51), np.arange(49, 0, -1)))/2500
+Ex = sum(x * pro_x)
+sum(((x - Ex)**2)*pro_x)
+
+y = np.arange(0, 8, 2) # np.arange(4)*2
+pro_y = np.array([1/6, 2/6, 2/6, 1/6])
+Ey = sum(y * pro_y)
+sum(((y - Ey)**2)*pro_y)
+
+# 표준편차(9.52가 표준편차, 표준편차**2=분산)
+np.sqrt(9.52**2/25)
