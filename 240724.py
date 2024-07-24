@@ -6,5 +6,9 @@ bernoulli.pmf(1, 0.3)
 bernoulli.pmf(0, 0.3)
 
 import pandas as pd
-df_house = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/train.csv")
-price_mean = df_house["SalePrice"].mean()
+house_df = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/train.csv")
+price_mean = house_df["SalePrice"].mean()
+sub_df = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission.csv")
+sub_df["SalePrice"] = price_mean
+sub_df.to_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission.csv", 
+                index = False) # index = False 안 하면 열 하나가 추가 됨 
