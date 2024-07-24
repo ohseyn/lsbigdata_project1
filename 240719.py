@@ -27,19 +27,18 @@ plt.show()
 plt.clf()
 
 x = np.arange(33)
-sum(x)/33
-sum((x-16) * 1/33)
-(x-16)**2
+sum(x)/33 # 기댓값
+sum((x-16) * 1/33) # E[X-E(X)]
+(x-16)**2 # (X-E(X))**2
 
 np.unique((x-16)**2)
 np.unique((x-16)**2) * (2/33)
-sum(np.unique((x-16)**2) * (2/33))
+sum(np.unique((x-16)**2) * (2/33)) # E[(X-E(X))**2]
 
 # E[X**2]
 sum(x**2 * (1/33))
 
 # E[(X-E(X))**2] = E[X**2 - 2*X*E(X) + E(X)**2]
-
 # Var(X) = E[X**2] - (E[X])**2
 sum(x**2 * (1/33)) - (16**2)
 
@@ -47,9 +46,9 @@ x = np.arange(4)
 pro_x = np.array([1/6, 2/6, 2/6, 1/6])
 pro_x
 
-# 기대값
+# 기대값(E(X))
 Ex = sum(x * pro_x)
-# 제곱 기대값
+# 제곱 기대값(E(X**2))
 Exx = sum(x**2 * pro_x)
 
 # 분산
