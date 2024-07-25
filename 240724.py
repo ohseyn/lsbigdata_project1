@@ -75,7 +75,9 @@ binom.cdf(18, 30, 0.26) - binom.cdf(4, 30, 0.26)
 binom.cdf(19, 30, 0.26) - binom.cdf(13, 30, 0.26)
 
 import numpy as np
+import seaborn as sns
 
+x_1 = binom.rvs(30, 0.26, size=1)
 x = np.arange(31)
 prob_x = binom.pmf(x, 30, 0.26)
 sns.barplot(prob_x, color="blue")
@@ -92,6 +94,7 @@ plt.scatter(x_1, np.repeat(0.002, 10), color="red", zorder=100, s=5) # 점
 plt.show()
 plt.clf()
 
+# 퀸타일 함수
 binom.ppf(0.5, 30, 0.26)
 binom.ppf(0.7, 30, 0.26)
 binom.cdf(7, 30, 0.26)
