@@ -75,7 +75,6 @@ binom.cdf(18, 30, 0.26) - binom.cdf(4, 30, 0.26)
 binom.cdf(19, 30, 0.26) - binom.cdf(13, 30, 0.26)
 
 import numpy as np
-import seaborn as sns
 
 x = np.arange(31)
 prob_x = binom.pmf(x, 30, 0.26)
