@@ -153,7 +153,7 @@ plt.clf()
 # loc: a, scale: b-a
 # 여기서는 loc: 구간시작점, scale: 구간길이
 from scipy.stats import uniform
-uniform.pdf(2, loc=2, scale=4)
+uniform.pdf(2, loc=2, scale=4) # U(2, 6) # P(a<=x<=b): 1/b-a, otherwise: 0
 uniform.cdf(5, loc=2, scale=4)
 uniform.ppf(0.5, loc=2, scale=4) # 확률에 대응하는 숫자를 알려줌(0~1 사이 숫자가 들어가야 함)
 uniform.rvs(loc=2, scale=4, size=1)
@@ -173,6 +173,9 @@ uniform.cdf(8.39, loc=2, scale=4) - uniform.cdf(5, loc=2, scale=4)
 # 상위 7%의 값
 uniform.ppf(0.93, loc=2, scale=4)
 # 표본 20개의 평균
+x = uniform.rvs(loc=2, scale=4, size=20)
+
+# 표본 2000개의 평균, 그래프 그리기
 x = uniform.rvs(loc=2, scale=4, size=20*1000, random_state=42)
 x = x.reshape(-1, 20)
 x.shape
@@ -193,9 +196,18 @@ plt.plot(x_values, pdf_values, color="red", linewidth="2")
 plt.show()
 plt.clf()
 
-norm.ppf(0.995, loc=0, scale=1)
-norm.ppf(0.975, loc=0, scale=1) # 1.96
-0.665/np.sqrt(1.33333/20)
+# a와 b 사이가 95%
+norm.ppf(0.025, loc=4, scale=np.sqrt(1.33333/20)) # a
+norm.ppf(0.975, loc=4, scale=np.sqrt(1.33333/20)) # b
+
+# a와 b 사이가 99%
+4-norm.ppf(0.005, loc=4, scale=np.sqrt(1.33333/20)) # a
+4-norm.ppf(0.995, loc=4, scale=np.sqrt(1.33333/20)) # b
+
+norm.ppf(0.995, loc=0, scale=1) # 99% 2.57
+norm.ppf(0.975, loc=0, scale=1) # 95% 1.96
+# 0.665 = 신뢰구간 값 * 표준편차 
+0.665/np.sqrt(1.33333/20) # 2.57
 
 # 신뢰구간
 x_values = np.linspace(3, 5, 100) # 일정한 간격으로 숫자 출력
@@ -211,14 +223,6 @@ plt.axvline(x=a, color="blue", linestyle="--", linewidth=1)
 plt.axvline(x=b, color="blue", linestyle="--", linewidth=1)
 plt.show() # 정규분포
 plt.clf()
-
-# a와 b 사이가 95%
-norm.ppf(0.025, loc=4, scale=np.sqrt(1.33333/20)) # a
-norm.ppf(0.975, loc=4, scale=np.sqrt(1.33333/20)) # b
-
-# a와 b 사이가 99%
-4-norm.ppf(0.005, loc=4, scale=np.sqrt(1.33333/20)) # a
-4-norm.ppf(0.995, loc=4, scale=np.sqrt(1.33333/20)) # b
 
 #=============================================================
 #np.cumprod(np.arange(1,55))
