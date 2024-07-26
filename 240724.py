@@ -149,6 +149,77 @@ plt.plot(x_values, pdf_values, color="red", linewidth="2")
 plt.show()
 plt.clf()
 
+# 균일 분포 X ~ U(a, b)
+# loc: a, scale: b-a
+# 여기서는 loc: 구간시작점, scale: 구간길이
+from scipy.stats import uniform
+uniform.pdf(2, loc=2, scale=4)
+uniform.cdf(5, loc=2, scale=4)
+uniform.ppf(0.5, loc=2, scale=4) # 확률에 대응하는 숫자를 알려줌(0~1 사이 숫자가 들어가야 함)
+uniform.rvs(loc=2, scale=4, size=1)
+
+# 그래프
+import matplotlib.pyplot as plt
+k = np.linspace(0, 8, 100)
+y = uniform.pdf(k, loc=2, scale=4)
+plt.plot(k, y)
+plt.show()
+plt.clf()
+
+# P(X<3.25)
+uniform.cdf(3.25, loc=2, scale=4)
+# P(5<X<8.39)
+uniform.cdf(8.39, loc=2, scale=4) - uniform.cdf(5, loc=2, scale=4)
+# 상위 7%의 값
+uniform.ppf(0.93, loc=2, scale=4)
+# 표본 20개의 평균
+x = uniform.rvs(loc=2, scale=4, size=20*1000, random_state=42)
+x = x.reshape(-1, 20)
+x.shape
+blue_x = x.mean(axis=1)
+sns.histplot(blue_x, stat="density")
+
+# X bar ~ N(mu,sigma**2/n)
+# X bar ~ N(4, 1.3333333/20)
+# mu는 2와 6 사이 평균이 4이기 때문에 4
+# 표준편차는 분산**2/표본 개수이기 때문에 분산/표본 개수
+uniform.var(loc=2, scale=4) # 분산
+uniform.expect(loc=2, scale=4) # 기대값
+
+xmin, xmax = (blue_x.min(), blue_x.max())
+x_values = np.linspace(xmin, xmax, 100) # 일정한 간격으로 숫자 출력
+pdf_values = norm.pdf(x_values, loc=4, scale=np.sqrt(1.33333/20))
+plt.plot(x_values, pdf_values, color="red", linewidth="2")
+plt.show()
+plt.clf()
+
+norm.ppf(0.995, loc=0, scale=1)
+norm.ppf(0.975, loc=0, scale=1) # 1.96
+0.665/np.sqrt(1.33333/20)
+
+# 신뢰구간
+x_values = np.linspace(3, 5, 100) # 일정한 간격으로 숫자 출력
+pdf_values = norm.pdf(x_values, loc=4, scale=np.sqrt(1.33333/20))
+plt.plot(x_values, pdf_values, color="red", linewidth="2")
+plt.axvline(x=4, color="green", linestyle="-", linewidth=3) # 기대값 표현
+blue_x=uniform.rvs(loc=2, scale=4, size=20).mean()
+a = blue_x + 1.96 * np.sqrt(1.33333/20)
+b = blue_x - 1.96 * np.sqrt(1.33333/20)
+plt.scatter(blue_x, 0.002, color="blue", zorder=10, s=10) # 표본 평균(파란 벽돌) 점 찍기
+# 검은색 벽돌이 가지는 평균
+plt.axvline(x=a, color="blue", linestyle="--", linewidth=1)
+plt.axvline(x=b, color="blue", linestyle="--", linewidth=1)
+plt.show() # 정규분포
+plt.clf()
+
+# a와 b 사이가 95%
+norm.ppf(0.025, loc=4, scale=np.sqrt(1.33333/20)) # a
+norm.ppf(0.975, loc=4, scale=np.sqrt(1.33333/20)) # b
+
+# a와 b 사이가 99%
+4-norm.ppf(0.005, loc=4, scale=np.sqrt(1.33333/20)) # a
+4-norm.ppf(0.995, loc=4, scale=np.sqrt(1.33333/20)) # b
+
 #=============================================================
 #np.cumprod(np.arange(1,55))
 # ln = loge(자연로그)
