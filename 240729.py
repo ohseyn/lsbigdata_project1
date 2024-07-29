@@ -34,7 +34,7 @@ x = norm.rvs(loc=3, scale=5, size=10000)
 np.mean(x**2)
 np.var(x) + (np.mean(x)**2)
 # 분산: sum(x**2)/(len(x)-1)
-np.mean((x-x**2)/(2*x))
+# np.mean((x-x**2)/(2*x))
 
 # 표본분산
 np.random.seed(20240729)
