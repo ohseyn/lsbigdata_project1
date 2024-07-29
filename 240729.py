@@ -47,3 +47,28 @@ np.var(x, ddof=0) # n으로 나눈 값 # x.var()
 x=norm.rvs(loc=3, scale=5, size=20)
 np.var(x) # n으로 나눈 값 # 25보다 왼쪽에 있음
 np.var(x, ddof=1) # n-1로 나눈 값 # 25에 딱 있음
+
+#=========================================================
+
+#같은 해에 지어진 그룹을 한 그룹으로 보고 -> 평균을 냄
+#test.set에 있는 집값을 예측해보자.
+house_train = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/train.csv")
+house_train=house_train[["Id", "YearBuilt", "SalePrice"]]
+house_mean = house_train.groupby("YearBuilt", as_index=False)\
+         .agg( 
+             mean_year=("SalePrice", "mean")
+         )
+house_test = pd.read_csv('test.csv')
+house_test = house_test[["Id", "YearBuilt"]]
+
+house_test = pd.merge(house_test, house_mean, how = "left", on = "YearBuilt")
+house_test = house_test.rename(columns={"mean_year" : "SalePrice"})
+house_test["SalePrice"].isna().sum()
+house_test.loc[house_test["SalePrice"].isna()]
+house_mean = house_test["SalePrice"].mean()
+house_test["SalePrice"] = house_test["SalePrice"].fillna(house_mean)
+
+sub_df = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission.csv")
+sub_df["SalePrice"] = house_test["SalePrice"]
+sub_df.to_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission2.csv", 
+                index = False) # index = False 안 하면 열 하나가 추가 됨 

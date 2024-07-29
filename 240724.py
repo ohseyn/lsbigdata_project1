@@ -238,6 +238,7 @@ np.exp(logf_54 - (logf_28 + logf_26))
 
 import pandas as pd
 house_df = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/train.csv")
+house_df["YearBuilt"]
 price_mean = house_df["SalePrice"].mean()
 sub_df = pd.read_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission.csv")
 sub_df["SalePrice"] = price_mean
