@@ -66,6 +66,8 @@ sns.barplot(data = my_df, x = "age", y = "n")
 plt.show()
 plt.clf()
 
+#=================================================
+
 welfare["age"]
 welfare = welfare.assign(ageg = np.where(welfare["age"] < 30, "young", 
                                 np.where(welfare["age"] <= 59, "middle", "old"))) # 연령대 변수 만들기
@@ -129,10 +131,10 @@ welfare = welfare.assign(age_group = pd.cut(welfare["age"],
                         labels = (np.arange(12)*10).astype(str)+"대"))
 welfare["age_group"]
 
-ageg_income = welfare.dropna(subset = "income")\ 
+age_income = welfare.dropna(subset = "income")\ 
                     .groupby("age_group", as_index = False)\
                     .agg(mean_income = ("income", "mean"))
-sns.barplot(data = ageg_income, x="age_group", y="mean_income")
+sns.barplot(data = age_income, x="age_group", y="mean_income")
 plt.show()
 plt.clf()
 
@@ -152,10 +154,16 @@ x=np.arange(10)
 np.quantile(x, q=0.95) # quantile <- ppf 같은 존재 
 
 # 중요!!!! 복습 많이
+# x는 welfare["income"]
+# x는 바로 앞에 있는 값을 가져옴
 welfare["age_group"] = welfare["age_group"].astype("object")
 sex_age_income_top4er = welfare.dropna(subset = "income")\ 
                     .groupby(["age_group", "sex"], as_index = False)\
                     .agg(top4per_income = ("income", lambda x: np.quantile(x, q = 0.96)))
+                    
+sns.barplot(data=sex_age_income_top4er, x="age_group", y="top4per_income", hue="sex")
+plt.show()
+plt.clf()
 
 # 다른 방법 
 def my_f(vec):
