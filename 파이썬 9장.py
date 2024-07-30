@@ -50,10 +50,10 @@ sns.histplot(data = welfare, x = "age") # 히스토그램 그리기
 plt.show()
 plt.clf()
 
-age_income = welfare.dropna(subset = "income")\ # income 결측치 제거
-            .groupby("age", as_index=False)\ # age별 분리 
-            .agg(mean_income=("income", "mean")) # income 평균 구하기
-sns.lineplot(data = age_income, x = "age", y = "mean_income") # 선 그래프 그리기
+age_income = welfare.dropna(subset = "income")\
+            .groupby("age", as_index=False)\
+            .agg(mean_income=("income", "mean")) 
+sns.lineplot(data = age_income, x = "age", y = "mean_income") 
 plt.show()
 plt.clf()
 
