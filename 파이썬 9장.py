@@ -148,10 +148,18 @@ plt.clf()
 # 연령대별, 성별 상위 4% 수입 찾아보세요!
 np.mean(np.arange(10)) # 벡터에 mean 씌운 것
 x=np.arange(10)
-np.quantile(x, q=0.95) # quantile <- ppf 같은 존재
+# np.quantile(array, q=숫자(무조건 들어가야 함))
+np.quantile(x, q=0.95) # quantile <- ppf 같은 존재 
 
-# 중요!!!!
+# 중요!!!! 복습 많이
 welfare["age_group"] = welfare["age_group"].astype("object")
 sex_age_income_top4er = welfare.dropna(subset = "income")\ 
                     .groupby(["age_group", "sex"], as_index = False)\
                     .agg(top4per_income = ("income", lambda x: np.quantile(x, q = 0.96)))
+
+# 다른 방법 
+def my_f(vec):
+    return vec.sum()
+sex_age_income = welfare.dropna(subset = "income")\
+                    .groupby(["age_group", "sex"], as_index = False)\
+                    .agg(top4per_income = ("income", lambda x: my_f(x)))                    
