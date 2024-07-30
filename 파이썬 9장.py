@@ -74,16 +74,28 @@ sns.countplot(data = welfare, x = "ageg")
 plt.show()
 plt.clf()
 
-ageg_income = welfare.dropna(subset = "income").groupby("ageg", as_index = False).agg(mean_income = ("income", "mean")) 
+ageg_income = welfare.dropna(subset = "income")\
+                    .groupby("ageg", as_index = False)\
+                    .agg(mean_income = ("income", "mean")) 
 sns.barplot(data = ageg_income, x = "ageg", y = "mean_income")
 sns.barplot(data = ageg_income, x = "ageg", y = "mean_income", 
             order=["young", "middle", "old"]) 
 plt.show()
 plt.clf()
 
-sex_income = welfare.dropna(subset = "income").groupby(["ageg", "sex"], as_index = False).agg(mean_income = ("income", "mean")) 
+sex_income = welfare.dropna(subset = "income")\
+                    .groupby(["ageg", "sex"], as_index = False)\
+                    .agg(mean_income = ("income", "mean")) 
 sns.barplot(data = sex_income, x = "ageg", y = "mean_income", 
 						hue="sex", order=["young", "middle", "old"])
+plt.show()
+plt.clf()
+
+sex_age =  welfare.dropna(subset = "income")\
+                .groupby(["age", "sex"], as_index = False)\
+                .agg(mean_income = ("income", "mean")) 
+sns.lineplot(data = sex_age, x = "age", y = "mean_income", 
+						hue="sex")
 plt.show()
 plt.clf()
 
