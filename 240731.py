@@ -1,8 +1,8 @@
 from scipy.stats import norm
 
 # 하위 25%에 해당하는 x는?
-x = norm.ppf(0.25, loc=3, scale=7) # x의 mu, sigma
-z = norm.ppf(0.25, loc=0, scale=1)
+x = norm.ppf(0.25, loc=3, scale=7) # x의 mu, sigma # 정규 분포
+z = norm.ppf(0.25, loc=0, scale=1) # 퍼센트 입력하면 값을 토해냄 # 표준 정규 분포
 norm.ppf(0.975, loc=0, scale=1) * 7 + 3
 
 z * 7 + 3
@@ -60,7 +60,7 @@ plt.clf()
 
 #========================================================
 # 표본표준편차 나눠도 표준정규분포가 되는지 확인 -> 안된다
-# 빨간색보다는 밑에 분포가 그려지는 이유는 
+# 빨간색보다는 밑에 분포가 그려지는 이유는 분산이 이론적인 값과 다르다
 x = norm.rvs(loc=5, scale=3, size=10)
 s = np.std(x, ddof=1)
 

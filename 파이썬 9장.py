@@ -226,7 +226,7 @@ welfare["marriage_type"]
 rel_div = welfare.query("marriage_type != 5")\ # 그 조건에 맞는 행을 추출
                     .groupby("religion", as_index = False)\
                     ["marriage_type"]\
-                    .value_counts(normalize=True) # count를 세주는 거에 normalize가 proportion을 세줌
+                    .value_counts(normalize=True) # count를 세주는 거에 normalize가 proportion(비율)을 세줌
 
 rel_div = rel_div.query("marriage_type == 1")\
                 .assign(proportion = rel_div["proportion"]*100)\
