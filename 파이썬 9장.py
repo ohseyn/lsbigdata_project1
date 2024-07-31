@@ -44,7 +44,7 @@ plt.clf()
 welfare["birth"].describe() # 이상치 확인 
 welfare["birth"].isna().sum() # 결측치 확인인
 welfare["birth"]=np.where(welfare["birth"] == 9999, np.nan, welfare["birth"]) # 결측 처리
-welfare = welfare.assign(age = 2019 - welfare["birth"]) # 나이 변수 만들기
+welfare = welfare.assign(age = 2019 - welfare["birth"]+1) # 나이 변수 만들기
 welfare["age"].describe() # 통계량 구하기
 sns.histplot(data = welfare, x = "age") # 히스토그램 그리기
 plt.show()
@@ -139,6 +139,7 @@ plt.show()
 plt.clf()
 
 # 판다스 데이터 프레임을 다룰때, 변수의 타입이 카테고리로 설정되어 있는 경우 groupby + agg 안 먹힘
+# 그래서 object로 바꿔야 가능함
 welfare["age_group"] = welfare["age_group"].astype("object")
 sex_age_income = welfare.dropna(subset = "income")\ 
                     .groupby(["age_group", "sex"], as_index = False)\
@@ -156,6 +157,7 @@ np.quantile(x, q=0.95) # quantile <- ppf 같은 존재
 # 중요!!!! 복습 많이
 # x는 welfare["income"]
 # x는 바로 앞에 있는 값을 가져옴
+# 상위 4% 구함
 welfare["age_group"] = welfare["age_group"].astype("object")
 sex_age_income_top4er = welfare.dropna(subset = "income")\ 
                     .groupby(["age_group", "sex"], as_index = False)\
