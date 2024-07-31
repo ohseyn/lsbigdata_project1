@@ -167,9 +167,67 @@ sns.barplot(data=sex_age_income_top4er, x="age_group", y="top4per_income", hue="
 plt.show()
 plt.clf()
 
+# 참고([] 하나면 시리즈, [[]] 두 개면 데이터프레임)
+welfare.dropna(subset = "income")\
+        .groupby("sex", as_index = False)[["income"]]\
+        .agg(["mean", "std"])
+
+# 하나면 함수, 2개 이상 구하면 agg로 묶어서!
+welfare.dropna(subset = "income")\
+        .groupby("sex", as_index = False)[["income"]]\
+        .mean()
+        
+my_f(welfare.dropna(subset = "income")\
+        .groupby("sex", as_index = False)[["income"]])
+
 # 다른 방법 
 def my_f(vec):
     return vec.sum()
 sex_age_income = welfare.dropna(subset = "income")\
                     .groupby(["age_group", "sex"], as_index = False)\
                     .agg(top4per_income = ("income", lambda x: my_f(x)))                    
+
+welfare["code_job"].dtypes
+welfare["code_job"].value_counts()
+
+list_job = pd.read_excel("Data/Koweps_Codebook_2019.xlsx", sheet_name = "직종코드")
+list_job.shape
+welfare = welfare.merge(list_job, how = "left", on = "code_job")
+welfare.dropna(subset = "code_job")[["code_job", "job"]]
+
+top10 = welfare.dropna(subset = ["job", "income"])\
+                    .groupby("job", as_index = False)\
+                    .agg(mean_income = ("income", "mean"))\
+                    .sort_values("mean_income", ascending = False)\
+                    .head(10)
+                    
+plt.rcParams.update({"font.family":"Malgun Gothic"})
+sns.barplot(data = top10, y = "job", x = "mean_income", hue = "job")
+plt.show()
+plt.clf()
+
+bottom10 = welfare.dropna(subset = ["job", "income"])\ 
+                    .groupby("job", as_index = False)\
+                    .agg(mean_income = ("income", "mean"))\
+                    .sort_values("mean_income")\
+                    .head(10)
+sns.barplot(data = bottom10, y = "job", x = "mean_income", hue = "job").set(xlim=[0,800])
+plt.show()
+plt.clf()
+
+female_top10 = welfare.dropna(subset = ["job", "income"])\
+                    .query("sex=='female'")\
+                    .groupby("job", as_index = False)\
+                    .agg(mean_income = ("income", "mean"))\
+                    .sort_values("mean_income", ascending = False)\
+                    .head(10)
+
+welfare["marriage_type"]
+rel_div = welfare.query("marriage_type != 5")\ # 그 조건에 맞는 행을 추출
+                    .groupby("religion", as_index = False)\
+                    ["marriage_type"]\
+                    .value_counts(normalize=True) # count를 세주는 거에 normalize가 proportion을 세줌
+
+rel_div = rel_div.query("marriage_type == 1")\
+                .assign(proportion = rel_div["proportion"]*100)\
+                .round(1)
