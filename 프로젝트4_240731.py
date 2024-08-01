@@ -11,8 +11,10 @@ house_mo = house_train1.dropna(subset=["MoSold","SalePrice"])\
                     .agg(count = ("SalePrice","count"))\
                     .sort_values("MoSold", ascending = True)
 sns.barplot(data=house_mo, x="MoSold", y="count", hue="MoSold")
+plt.rcParams.update({"font.family":"Malgun Gothic"})
 plt.xlabel("월(month)")
 plt.ylabel("이사횟수(count)")
+plt.tight_layout()
 plt.show()
 plt.clf()  
 
@@ -23,6 +25,7 @@ house_cond = house_train2.dropna(subset=["YearBuilt","OverallCond"])\
                     .agg(count = ("YearBuilt", "count"))\
                     .sort_values("count", ascending = False)
 sns.barplot(data = house_cond, x = "OverallCond", y = "count", hue = "OverallCond")
+plt.tight_layout()
 plt.show()
 plt.clf()
 
@@ -33,16 +36,19 @@ house_bed = house_train3.dropna(subset=["BldgType","OverallCond"])\
                     .agg(count = ("BldgType", "count"))\
                     .sort_values("count", ascending = False)
 sns.barplot(data = house_bed, x = "OverallCond", y = "count", hue = "BldgType")
+plt.tight_layout()
 plt.show()
 plt.clf()
 
 house_train4 = house_train[["SalePrice", "Neighborhood"]]
-
-house_train4["Neighborhood"]
-house_nei = house_train4.dropna(subset=["SalePrice","Neighborhood"])\
-                    .groupby(["Neighborhood", "SalePrice"], as_index = False)\
-                    .agg(mean = ("SalePrice", "mean"))\
-                    .sort_values("mean", ascending = False).head(10)
-sns.barplot(data = house_nei, x = "Neighborhood", y = "mean", hue = "Neighborhood")
+house_nei = house_train4.dropna(subset=["SalePrice", "Neighborhood"])\
+                    .groupby("Neighborhood", as_index=False)\
+                    .agg(region_mean=("SalePrice", "mean"))\
+                    .sort_values("region_mean", ascending=False)
+            
+sns.barplot(data=house_nei, x="Neighborhood", y="region_mean", hue="Neighborhood")
+plt.title('Average SalePrice by Neighborhood')
+plt.xticks(rotation=45, size=6)
+plt.tight_layout()
 plt.show()
 plt.clf()
