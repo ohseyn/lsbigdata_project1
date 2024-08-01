@@ -26,7 +26,7 @@ x = np.linspace(0, 5, 100)
 y = a*x + b
 
 house_train = pd.read_csv('train.csv')
-house_train=house_train[["Id", "YearBuilt", "SalePrice"]]
+house_train=house_train[["Id", "BedroomAbvGr", "SalePrice"]]
 my_df = house_train[["BedroomAbvGr", "SalePrice"]].head(10)
 my_df["SalePrice"] = my_df["SalePrice"]/1000
 plt.scatter(x=my_df["BedroomAbvGr"], y=my_df["SalePrice"])
@@ -53,6 +53,7 @@ y_hat = (a * house_train["BedroomAbvGr"] + b) * 1000
 # y는 어디에 있는가?
 y = house_train["SalePrice"]
 
+np.abs(y - y_hat) # 절대거리
 np.sum(np.abs(y-y_hat)) # 절대거리의 합(거리)이 작으면 작을수록 성능이 좋음 # 절댓값
 np.sum((y-y_hat)**2) # 절대거리의 합(거리)이 작으면 작을수록 성능이 좋음 # 제곱
 
@@ -75,7 +76,7 @@ model = LinearRegression()
 model.fit(x, y) # 자동으로 기울기, 절편 값을 구해줌
 
 # 회귀 직선의 기울기와 절편
-slope = model.coef_[0] # 기울기 a
+slope = model.coef_[0] # 기울기 a (0이 없으면 array로 나온다! 그러니 수를 사용하므로 [0]을 이용)
 intercept = model.intercept_ # y절편 b
 print(f"기울기 (slope): {slope}")
 print(f"절편 (intercept): {intercept}")
@@ -107,7 +108,7 @@ model = LinearRegression()
 model.fit(x, y) # 자동으로 기울기, 절편 값을 구해줌
 
 # 회귀 직선의 기울기와 절편
-slope = model.coef_[0] # 기울기 a: array([16.38101698])
+slope = model.coef_[0] # 기울기 a: np.float64(16.38101698)
 intercept = model.intercept_ # y절편 b: np.float64(133.96602049739172)
 print(f"기울기 (slope): {slope}")
 print(f"절편 (intercept): {intercept}")
