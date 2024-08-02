@@ -99,13 +99,13 @@ house_train = pd.read_csv('train.csv')
 house_test = pd.read_csv('test.csv')
 sub_df=pd.read_csv("sample_submission.csv")
 
-x = np.array(house_train["BedroomAbvGr"]).reshape(-1, 1) # np.array에만 reshape이 적용됨
+x = np.array(house_train["BedroomAbvGr"]).reshape(-1, 1) # np.array에만 reshape이 적용됨(2차원 array)
 y = np.array(house_train["SalePrice"])/1000
 
 model = LinearRegression()
 
-# 모델 학습
-model.fit(x, y) # 자동으로 기울기, 절편 값을 구해줌
+# 모델 학습(a,b를 찾으라)
+model.fit(x, y) # 자동으로 기울기, 절편 값을 구해줌(minimize 해줌)
 
 # 회귀 직선의 기울기와 절편
 slope = model.coef_[0] # 기울기 a: np.float64(16.38101698)
@@ -124,3 +124,12 @@ plt.ylabel('y')
 plt.legend()
 plt.show()
 plt.clf()
+
+#=========================================
+
+test_x = np.array(house_test["BedroomAbvGr"]).reshape(-1, 1)
+pred_y = model.predict(test_x) # test 셋에 대한 집값
+
+sub_df=pd.read_csv("sample_submission.csv")
+sub_df["SalePrice"] = pred_y * 1000
+sub_df.to_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission4.csv", index=False)

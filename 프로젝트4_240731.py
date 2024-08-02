@@ -52,3 +52,37 @@ plt.xticks(rotation=45, size=6)
 plt.tight_layout()
 plt.show()
 plt.clf()
+
+#===================================================
+house_train = pd.read_csv('train.csv')
+house_test = pd.read_csv('test.csv')
+sub_df=pd.read_csv("sample_submission.csv")
+
+# 이상치 탐색 및 이상치 제거
+house_train = house_train.query("GrLivArea <= 4500")
+
+x = np.array(house_train["GrLivArea"]).reshape(-1, 1)
+y = house_train["SalePrice"]/1000
+
+model = LinearRegression()
+model.fit(x, y)
+
+slope = model.coef_[0]
+intercept = model.intercept_ 
+
+y_pred = model.predict(x) 
+
+plt.scatter(x, y, color='blue', label='data')
+plt.plot(x, y_pred, color='red', label='LinearRegression')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+plt.clf()
+
+test_x = np.array(house_test["GrLivArea"]).reshape(-1, 1)
+pred_y = model.predict(test_x)
+
+sub_df=pd.read_csv("sample_submission.csv")
+sub_df["SalePrice"]=pred_y * 1000
+sub_df.to_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample_submission5.csv", index=False)
