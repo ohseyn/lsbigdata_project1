@@ -128,7 +128,7 @@ plt.clf()
 #=========================================
 
 test_x = np.array(house_test["BedroomAbvGr"]).reshape(-1, 1)
-pred_y = model.predict(test_x) # test 셋에 대한 집값
+pred_y = model.predict(test_x) # test 셋에 대한 집값, predict이 알아서 계산
 
 sub_df=pd.read_csv("sample_submission.csv")
 sub_df["SalePrice"] = pred_y * 1000

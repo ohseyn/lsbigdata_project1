@@ -69,7 +69,6 @@ print("최소값:", result.fun)
 print("최소값을 갖는 x 값:", result.x)
 
 # 회귀직선 구하기
-
 import numpy as np
 from scipy.optimize import minimize
 
@@ -126,7 +125,6 @@ sub_df.to_csv("C:/Users/User/Documents/LSBigDataSchool/lsbigdata_project1/sample
 
 #==================================================
 # 변수 2개 사용하기
-
 house_train = pd.read_csv('train.csv')
 house_test = pd.read_csv('test.csv')
 sub_df=pd.read_csv("sample_submission.csv")
@@ -136,7 +134,7 @@ house_train = house_train.query("GrLivArea <= 4500")
 # x = np.array(house_train[["GrLivArea", "GarageArea"]]).reshape(-1, 2) # 세로로 만들어주기 위해 -1을 한 거임
 x = house_train[["GrLivArea" ,"GarageArea"]]
 # x = house_train[["GrLivArea"]] # 판다스 프레임(열이 생김, size 표현해줌)
-# x = house_train["GrLivArea"] # 판다스 시리즈(데이터 타입과 기링만 나옴), 차원 없음
+# x = house_train["GrLivArea"] # 판다스 시리즈(데이터 타입과 길이만 나옴), 차원 없음
 y = house_train["SalePrice"]
 
 model = LinearRegression()
