@@ -20,12 +20,12 @@ x = x.iloc[:,1:-1]
 y = house_train["SalePrice"]
 x.isna().sum()
 
-# mode는 최빈값값
+# mode는 최빈값
 #fill_values = {
 #    "LotFrontage" : x["LotFrontage"].mean(), # np.float64() 이렇게 나와야함
 #    "MasVnrArea" : x["MasVnrArea"].mode()[0], # 시리즈로 나와서 찾아서 가져옴
 #    "GarageYrBlt" : x["MasVnrArea"].mean()
-# }
+#    }
 x = x.fillna(value=fill_values)
 
 x["LotFrontage"] = x["LotFrontage"].fillna(house_train["LotFrontage"].mean())
