@@ -155,6 +155,7 @@ pred_y = model.predict(test_x)
 # 결측치 확인
 test_x["GarageArea"].isna().sum()
 test_x=test_x.fillna(house_test["GarageArea"].mean())
+test_x.fillna(house_test["GarageArea"].mean(), inplace=True) # test_x에 다시 넣을 필요 없음
 
 # 그래프 당연히 안 그려짐
 y_pred = model.predict(x) 
