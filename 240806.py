@@ -70,3 +70,33 @@ test3_data = tab3_data[['score_diff']]
 result = ttest_1samp(test3_data["score_diff"], popmean=0, alternative='greater')
 t_value=result[0] # t 검정통계량
 p_value=result[1] # 유의확률 (p-value)
+
+long_form = tab3_data.reset_index().melt(id_vars='id', 
+                                        value_vars=['before', 'after'], 
+                                        var_name='group', 
+                                        value_name='score')
+
+#===============================================
+                                        
+# 피벗 테이블 연습1
+df = pd.DataFrame({"id": [1, 2, 3], "A": [10, 20, 30], "B": [40, 50, 60]})
+df_long = df.melt(id_vars = "id", 
+                    value_vars = ["A", "B"], 
+                    var_name = "group", 
+                    value_name = "score")
+df_long.pivot_table(index = "id", columns="group", values="score")
+df_long.pivot_table(columns="group", values="score")
+df_long.pivot_table(columns="group", values="score", aggfunc="mean")
+df_long.pivot_table(columns="group", values="score", aggfunc="max")
+# group     A     B
+# score  20.0  50.0
+# 요약할 때 기본이 mean이기 때문에 mean값을 내놓음
+
+#================================================
+# 연습2
+# day 안에 있는 요일들을 뽑아 요일별로 펼칠 때
+import seaborn as sns
+tips = sns.load_dataset("tips")
+
+tips_day = tips.pivot_table(columns='day',
+                        values='tip').reset_index()
