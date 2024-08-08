@@ -20,19 +20,21 @@ geo_map = folium.Map(location = [35.95, 127.7], zoom_start = 8) # 지도 중심 
 #=======================================
 # 서울시 지도
 geo_seoul = json.load(open("Data/SIG_Seoul.geojson", encoding = "UTF-8"))
-type(geo_seoul)
-len(geo_seoul)
-geo_seoul.keys()
+type(geo_seoul) # <class 'dict'>
+len(geo_seoul) # 4(key 개수)
+geo_seoul.keys() # dict_keys(['type', 'name', 'crs', 'features'])
 
-len(geo_seoul["features"])
-len(geo_seoul["features"][0])
+len(geo_seoul["features"]) # 25(아마 서울시 구 개수인 듯)
+len(geo_seoul["features"][0]) # 3(키 개수)
+type(geo_seoul["features"][0]) # <class 'dict'>
 
 # 숫자가 바뀌면 '구'가 바뀜
 geo_seoul["features"][0]["properties"] # 행정구역 코드 및 이름(properties)
-geo_seoul["features"][1]["geometry"] # 위도(latitude), 경도(longitude) 좌표
-geo_seoul["features"][0].keys()
+# {'SIG_CD': '11110', 'SIG_ENG_NM': 'Jongno-gu', 'SIG_KOR_NM': '종로구'}
+geo_seoul["features"][0]["geometry"] # 위도(latitude), 경도(longitude) 좌표 # <class 'dict'>
+geo_seoul["features"][0].keys() # dict_keys(['type', 'properties', 'geometry'])
 
-geo_seoul['features'][0]['geometry'].keys() # # coordinates는 좌표
+geo_seoul['features'][0]['geometry'].keys() # # coordinates는 좌표 # dict_keys(['type', 'coordinates'])
 coordinate_list = geo_seoul['features'][0]['geometry']['coordinates']
 len(coordinate_list) # 1, 대괄호 4개
 len(coordinate_list[0])  # 1, 대괄호 3개
@@ -41,6 +43,14 @@ len(coordinate_list[0][0]) # 2332개, 이제 pd.df로 만들기
 import numpy as np
 
 coordinate_array = np.array(coordinate_list[0][0])
+# array([[127.00864326,  37.58046825],
+#       [127.00871275,  37.58045117],
+#       [127.00876564,  37.58044311],
+#       ...,
+#       [127.00857739,  37.58063571],
+#       [127.00858204,  37.58062895],
+#       [127.00864326,  37.58046825]])
+
 x = coordinate_array[:,0]
 y = coordinate_array[:,1]
 
