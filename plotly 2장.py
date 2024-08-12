@@ -1,12 +1,18 @@
 !pip install plotly
 import plotly.graph_objects as go
 import plotly.express as px
+import pandas as pd
+import os
 
 fig = go.Figure()
 fig.show()
 
 df_covid19_100 = pd.read_csv("Data/df_covid19_100.csv")
 df_covid19_100.info()
+
+cwd = os.getcwd()
+# 경로 설정하고자 하면 이렇게 바꾸면 됨
+# os.chdir('c:\\Users\\User\\Documents\\LSBigDataSchool\\lsbigdata_project1')
 
 # data: 데이터를 표현하는 트레이스를 구성하는 세부 속성들
 # 트레이스: Plotly로 시각화 할 수 있는 그래픽적 데이터 표현 방법

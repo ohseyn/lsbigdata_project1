@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 from palmerpenguins import load_penguins
+import plotly.graph_objects as go
 
 penguins = load_penguins()
 penguins.head()
@@ -10,6 +11,7 @@ penguins.info()
 penguins["species"].unique()
 penguins.columns
 
+# 주석 처리 ctrl + /
 # x: bill_length_mm
 # y: bill_depth_mm
 
