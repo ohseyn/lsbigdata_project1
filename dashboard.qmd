@@ -3,12 +3,16 @@ title: "팔머펭귄 대쉬보드"
 author: "ohseyn"
 format: 
     dashboard: 
-        scrolling: true
+        # scrolling: true
         logo: "dashboard_cover.gif"
         nav-buttons: 
             - icon: github
             - href: https://github.com/ohseyn/lsbigdata_project1
 ---
+
+# {.sidebar}
+
+sidebar
 
 # Page 1
     
@@ -20,9 +24,12 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from palmerpenguins import load_penguins
+from itables import show
 
 penguins = load_penguins()
-penguins.head()
+# penguins.head()
+# 스크롤 허용하면 그래프가 잘 안 뜸(scrolling: true)
+show(penguins, buttons = ["copy", "excel", "pdf"])
 ```
 
 ## Row {.tabset}
@@ -88,4 +95,51 @@ fig = px.scatter(
 )
 
 fig.show()
+```
+
+# Page 3
+
+### {.toolbar}
+
+toolbar
+
+## Row 
+```{python}
+# 값 할당
+articles = 100 
+comments = 50
+spam = 300
+```
+
+```{python}
+#| content: valuebox
+#| title: "Articles per day"
+#| icon: pencil
+#| color: primary
+dict(
+  value = articles
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Comments per day"
+# 컬러 hexcode 에서 가져옴
+dict(
+  icon = "chat",
+  color = "#f0330b",
+  value = comments
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Spam per day"
+# https://icons.getbootstrap.com/ 여기서 아이콘 가져옴
+# https://quarto.org/docs/dashboards/layout.html 사이트 참고
+dict(
+  icon = "airplane-engines",
+  color = "danger",
+  value = spam
+)
 ```
