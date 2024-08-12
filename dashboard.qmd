@@ -1,0 +1,91 @@
+---
+title: "팔머펭귄 대쉬보드"
+author: "ohseyn"
+format: 
+    dashboard: 
+        scrolling: true
+        logo: "dashboard_cover.gif"
+        nav-buttons: 
+            - icon: github
+            - href: https://github.com/ohseyn/lsbigdata_project1
+---
+
+# Page 1
+    
+## Row
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+penguins.head()
+```
+
+## Row {.tabset}
+
+```{python}
+#| title: Chart1
+fig = px.scatter(
+    penguins,
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species"
+)
+
+fig.show()
+```
+
+```{python}
+#| title: Chart2
+fig = px.scatter(
+    penguins,
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species"
+)
+
+fig.show()
+```
+
+# Page 2
+
+test
+
+## Row1
+
+## Row2
+
+### test1
+```{python}
+#| title: Chart1
+fig = px.scatter(
+    penguins,
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species"
+)
+
+fig.show()
+```
+
+### test2
+
+::: {.card title="My Title"}
+![팔머펭귄](dashboard_cover.png)
+:::
+
+```{python}
+#| title: Chart2
+fig = px.scatter(
+    penguins,
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species"
+)
+
+fig.show()
+```
