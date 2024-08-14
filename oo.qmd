@@ -1,0 +1,159 @@
+---
+title: "백룡즈 대쉬보드"
+author: "00즈"
+format: 
+  dashboard:
+    scrolling: true
+    logo: "dragon.png"
+    nav-buttons:
+      - icon: github
+        href: https://github.com/ohseyn/lsbigdata-project1/
+---
+
+# {.sidebar}
+
+# 서론
+
+## 인구(나이, 인종) 
+
+```{python}
+import pandas as pd
+import numpy as np
+
+# 데이터 불러오기, 데이터 전처리
+df = pd.read_csv("Data/Ames population data.csv")
+df = df.iloc[5::, :2]
+
+df_age = df.iloc[0:13, :2].reset_index(drop=True)
+# object를 int로 변환
+df_age['Ames city, Iowa!!Estimate'] = df_age['Ames city, Iowa!!Estimate'].str.replace(',', '').astype(int)
+
+df_race = pd.concat([df.iloc[72:76, :2], df.iloc[77:84, :2]]).reset_index(drop=True)
+# object를 int로 변환
+df_race['Ames city, Iowa!!Estimate'] = df_race['Ames city, Iowa!!Estimate'].str.replace(',', '').astype(int)
+
+# 나이
+import plotly.graph_objects as go
+labels = df_age["Label (Grouping)"]
+values = df_age["Ames city, Iowa!!Estimate"]
+
+fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.3)])
+
+fig.update_layout(
+    title_text="Ames 나이 분포",
+    title_font_size=24,
+    title_x=0.5,
+    annotations=[dict(text='나이', x=0.5, y=0.5, font_size=20, showarrow=False)],
+    showlegend=True
+)
+
+```
+
+```{python}
+# 인종
+labels = df_race["Label (Grouping)"]
+values = df_race["Ames city, Iowa!!Estimate"]
+
+fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.3)])
+
+fig.update_layout(
+    title_text="Ames 인종 분포",
+    title_font_size=24,
+    title_x=0.5,
+    title_y=0.99,
+    annotations=[dict(text='인종', x=0.5, y=0.5, font_size=20, showarrow=False)],
+    showlegend=True
+)
+
+```
+
+## 소득 
+
+```{python}
+import plotly.express as px
+import pandas as pd
+import numpy as np
+
+income_df = pd.read_csv("Data/Ames income.csv")
+#income_df.head()
+income_df = income_df.copy()
+
+# 소득 범위와 관련된 행 필터링
+income_brackets = [
+    'Less than $10,000',
+    '$10,000 to $14,999',
+    '$15,000 to $24,999',
+    '$25,000 to $34,999',
+    '$35,000 to $49,999',
+    '$50,000 to $74,999',
+    '$75,000 to $99,999',
+    '$100,000 to $149,999',
+    '$150,000 to $199,999',
+    '$200,000 or more'
+]
+
+# 소득 범위에 해당하는 행만 필터링
+filtered_df = income_df[income_df['Label (Grouping)'].str.strip().isin(income_brackets)].head(10)
+
+# 퍼센트 값 숫자로 변환
+filtered_df['Percent'] = filtered_df['Ames city, Iowa!!Percent'].str.replace('%', '').astype(float)
+
+# 히스토그램 생성
+fig = px.bar(filtered_df, x='Label (Grouping)', y='Percent',
+             title="Ames 가계소득계층분포",
+             labels={'Label (Grouping)': 'Income Bracket', 'Percent': 'Percentage (%)'})
+
+#fig.update_layout(xaxis_title="Income Bracket", yaxis_title="Percentage (%)", bargap=0.2)
+fig.update_xaxes(tickangle=45, tickmode="linear")
+
+# 그래프 출력
+#fig.show()
+```
+
+##  교육 {.tabset}
+
+### 18-24
+![](education1.png)
+
+### 25 이상
+![](education2.png)
+
+# 스토리 라인 1
+
+```{python}
+articles = 100
+comments = 50
+spam_num = 300
+```
+
+## Row 
+
+```{python}
+#| content: valuebox
+#| title: "Articles per day"
+#| icon: pencil
+#| color: primary
+dict(
+  value = articles
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Comments per day"
+dict(
+  icon = "chat",
+  color = "primary",
+  value = comments
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Spam per day"
+dict(
+  icon = "airplane-engines",
+  color = "#f0330b",
+  value = spam_num
+)
+```

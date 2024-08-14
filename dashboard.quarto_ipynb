@@ -1,0 +1,254 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"팔머펭귄 대쉬보드\"\n",
+        "author: \"ohseyn\"\n",
+        "format: \n",
+        "    dashboard: \n",
+        "        # scrolling: true\n",
+        "        logo: \"dashboard_cover.gif\"\n",
+        "        nav-buttons: \n",
+        "            - icon: github\n",
+        "            - href: https://github.com/ohseyn/lsbigdata_project1\n",
+        "---\n",
+        "\n",
+        "\n",
+        "# {.sidebar}\n",
+        "\n",
+        "sidebar\n",
+        "\n",
+        "# Page 1\n",
+        "    \n",
+        "## Row\n"
+      ],
+      "id": "2ab18ba7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import plotly.express as px\n",
+        "import plotly.graph_objects as go\n",
+        "from palmerpenguins import load_penguins\n",
+        "from itables import show\n",
+        "\n",
+        "penguins = load_penguins()\n",
+        "# penguins.head()\n",
+        "# 스크롤 허용하면 그래프가 잘 안 뜸(scrolling: true)\n",
+        "show(penguins, buttons = [\"copy\", \"excel\", \"pdf\"])"
+      ],
+      "id": "9444e411",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Row {.tabset}\n"
+      ],
+      "id": "0b77cf07"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "title": "Chart1"
+      },
+      "source": [
+        "fig = px.scatter(\n",
+        "    penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    color=\"species\"\n",
+        ")\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "c9b507ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "title": "Chart2"
+      },
+      "source": [
+        "fig = px.scatter(\n",
+        "    penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    color=\"species\"\n",
+        ")\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "19dd084c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Page 2\n",
+        "\n",
+        "test\n",
+        "\n",
+        "## Row1\n",
+        "\n",
+        "## Row2\n",
+        "\n",
+        "### test1"
+      ],
+      "id": "e96fc133"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "title": "Chart1"
+      },
+      "source": [
+        "fig = px.scatter(\n",
+        "    penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    color=\"species\"\n",
+        ")\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "9bc00225",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### test2\n",
+        "\n",
+        "::: {.card title=\"My Title\"}\n",
+        "![팔머펭귄](dashboard_cover.png)\n",
+        ":::\n"
+      ],
+      "id": "c07de3bb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "title": "Chart2"
+      },
+      "source": [
+        "fig = px.scatter(\n",
+        "    penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    color=\"species\"\n",
+        ")\n",
+        "\n",
+        "fig.show()"
+      ],
+      "id": "4280b35d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Page 3\n",
+        "\n",
+        "### {.toolbar}\n",
+        "\n",
+        "toolbar\n",
+        "\n",
+        "## Row "
+      ],
+      "id": "5ad39c6d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# 값 할당\n",
+        "articles = 100 \n",
+        "comments = 50\n",
+        "spam = 300"
+      ],
+      "id": "bc728a6a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "content": "valuebox",
+        "title": "Articles per day",
+        "icon": "pencil",
+        "color": "primary"
+      },
+      "source": [
+        "dict(\n",
+        "  value = articles\n",
+        ")"
+      ],
+      "id": "0e9f2bc4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "content": "valuebox",
+        "title": "Comments per day"
+      },
+      "source": [
+        "# 컬러 hexcode 에서 가져옴\n",
+        "dict(\n",
+        "  icon = \"chat\",\n",
+        "  color = \"#f0330b\",\n",
+        "  value = comments\n",
+        ")"
+      ],
+      "id": "e6bf8517",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "content": "valuebox",
+        "title": "Spam per day"
+      },
+      "source": [
+        "# https://icons.getbootstrap.com/ 여기서 아이콘 가져옴\n",
+        "# https://quarto.org/docs/dashboards/layout.html 사이트 참고\n",
+        "dict(\n",
+        "  icon = \"airplane-engines\",\n",
+        "  color = \"danger\",\n",
+        "  value = spam\n",
+        ")"
+      ],
+      "id": "08acd132",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\DS\\Python\\Python312\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

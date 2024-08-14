@@ -1,4 +1,4 @@
-!pip install palmerpenguins
+#!pip install palmerpenguins
 import pandas as pd
 import numpy as np
 import plotly.express as px
