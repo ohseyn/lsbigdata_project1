@@ -1,20 +1,38 @@
 ---
-title: "백룡즈 대쉬보드"
+title: "에임즈의 주택 가격"
 author: "00즈"
-format: 
+format:
   dashboard:
     scrolling: true
     logo: "dragon.png"
     nav-buttons:
       - icon: github
         href: https://github.com/ohseyn/lsbigdata-project1/
+    css: style.css
 ---
 
-# {.sidebar}
+# Navigation {.sidebar}
+1. [서론](#서론)
+    - 인구
+    - 소득
+    - 교육
+2. 본론
+    - [위치별 주택 가격 지도](#스토리라인1)
+    - [주택 가격 시계열 그래프](#스토리라인2)
+    - [회귀분석](#스토리라인3)
+3. [결론](#스토리라인4)
 
 # 서론
 
-## 인구(나이, 인종) 
+## 서론
+
+**Ames시 소개**
+
+## 인구(나이, 인종)
+
+**인구(나이, 인종)**
+
+## 인구(나이, 인종) {Height="30%"}
 
 ```{python}
 import pandas as pd
@@ -34,48 +52,111 @@ df_race['Ames city, Iowa!!Estimate'] = df_race['Ames city, Iowa!!Estimate'].str.
 
 # 나이
 import plotly.graph_objects as go
-labels = df_age["Label (Grouping)"]
-values = df_age["Ames city, Iowa!!Estimate"]
+# 전체 합계 계산
+total_sum = df_age['Ames city, Iowa!!Estimate'].sum()
 
+# 5% 이하의 항목을 필터링하고 "기타"로 그룹화
+threshold = 0.05  # 5%
+df_age['Ratio'] = df_age['Ames city, Iowa!!Estimate'] / total_sum
+
+# "기타" 그룹으로 묶을 항목들을 필터링
+small_categories = df_age[df_age['Ratio'] <= threshold]
+large_categories = df_age[df_age['Ratio'] > threshold]
+
+# "기타" 그룹 생성
+other_sum = small_categories['Ames city, Iowa!!Estimate'].sum()
+other_row = pd.DataFrame([["기타", other_sum, other_sum / total_sum]], columns=['Label (Grouping)', 'Ames city, Iowa!!Estimate', 'Ratio'])
+
+# "기타" 그룹과 큰 카테고리 병합
+df_final = pd.concat([large_categories, other_row], ignore_index=True)
+
+# 파이 차트를 위한 labels와 values 설정
+labels = df_final["Label (Grouping)"]
+values = df_final["Ames city, Iowa!!Estimate"]
+
+# 파이 차트 생성
 fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.3)])
 
-fig.update_layout(
+fig.update_traces(
+    textinfo='percent+label'
+).update_layout(
     title_text="Ames 나이 분포",
     title_font_size=24,
-    title_x=0.5,
+    title_x=0.3,
     annotations=[dict(text='나이', x=0.5, y=0.5, font_size=20, showarrow=False)],
-    showlegend=True
+    margin=dict(l=50, r=50, t=50, b=50),
+    width=800,
+    height=600,
+    legend=dict(
+        orientation="v",
+        yanchor="middle",
+        y=0.5,
+        xanchor="left",
+        x=1.2
+    )
 )
 
 ```
 
 ```{python}
-# 인종
-labels = df_race["Label (Grouping)"]
-values = df_race["Ames city, Iowa!!Estimate"]
+# 전체 합계 계산
+total_sum = df_race['Ames city, Iowa!!Estimate'].sum()
 
+# 2% 이하의 항목을 필터링하고 "기타"로 그룹화
+threshold = 0.04  # 2%
+df_race['Ratio'] = df_race['Ames city, Iowa!!Estimate'] / total_sum
+
+# "기타" 그룹으로 묶을 항목들을 필터링
+small_categories = df_race[df_race['Ratio'] <= threshold]
+large_categories = df_race[df_race['Ratio'] > threshold]
+
+# "기타" 그룹 생성
+other_sum = small_categories['Ames city, Iowa!!Estimate'].sum()
+other_row = pd.DataFrame([["기타", other_sum, other_sum / total_sum]], columns=['Label (Grouping)', 'Ames city, Iowa!!Estimate', 'Ratio'])
+
+# "기타" 그룹과 큰 카테고리 병합
+df_final = pd.concat([large_categories, other_row], ignore_index=True)
+
+# 파이 차트를 위한 labels와 values 설정
+labels = df_final["Label (Grouping)"]
+values = df_final["Ames city, Iowa!!Estimate"]
+
+# 파이 차트 생성 및 업데이트
 fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.3)])
 
-fig.update_layout(
+fig.update_traces(
+    textinfo='percent+label'
+).update_layout(
     title_text="Ames 인종 분포",
     title_font_size=24,
-    title_x=0.5,
+    title_x=0.3,
     title_y=0.99,
     annotations=[dict(text='인종', x=0.5, y=0.5, font_size=20, showarrow=False)],
-    showlegend=True
+    showlegend=True,
+    margin=dict(l=50, r=50, t=50, b=50),
+    width=800,
+    height=600,
+    legend=dict(
+        orientation="v",
+        yanchor="middle",
+        y=0.5,
+        xanchor="left",
+        x=1.2
+    )
 )
 
 ```
 
-## 소득 
+## 소득 {height=35%}
 
 ```{python}
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
+# 데이터 로드 및 필터링
 income_df = pd.read_csv("Data/Ames income.csv")
-#income_df.head()
 income_df = income_df.copy()
 
 # 소득 범위와 관련된 행 필터링
@@ -93,67 +174,312 @@ income_brackets = [
 ]
 
 # 소득 범위에 해당하는 행만 필터링
-filtered_df = income_df[income_df['Label (Grouping)'].str.strip().isin(income_brackets)].head(10)
+filtered_df = income_df[income_df['Label (Grouping)'].str.strip().isin(income_brackets)].tail(10)
 
 # 퍼센트 값 숫자로 변환
 filtered_df['Percent'] = filtered_df['Ames city, Iowa!!Percent'].str.replace('%', '').astype(float)
 
 # 히스토그램 생성
 fig = px.bar(filtered_df, x='Label (Grouping)', y='Percent',
-             title="Ames 가계소득계층분포",
-             labels={'Label (Grouping)': 'Income Bracket', 'Percent': 'Percentage (%)'})
+             title="Ames 가구 소득 범위 분포",
+             color='Label (Grouping)')  # 항목별 색깔 다르게 설정
 
-#fig.update_layout(xaxis_title="Income Bracket", yaxis_title="Percentage (%)", bargap=0.2)
-fig.update_xaxes(tickangle=45, tickmode="linear")
-
-# 그래프 출력
-#fig.show()
+# 중앙값 및 평균값을 한 박스 안에 텍스트로 추가하고 레이아웃과 트레이스 업데이트
+fig.update_layout(
+    xaxis_title="소득 범위",
+    yaxis_title="비율 (%)",
+    bargap=0.2,
+    title_font_size=15,  # 제목 글씨 크기 조정
+    xaxis=dict(tickmode="linear", tickfont=dict(size=10)),  # X축 텍스트 크기 조정
+    yaxis=dict(tickfont=dict(size=10)),  # Y축 텍스트 크기 조정
+    showlegend=False,  
+    annotations=[  # 여기에 annotation을 함께 추가
+        dict(
+            x=len(filtered_df)/2,  # 그래프의 중앙에 텍스트를 배치
+            y=max(filtered_df['Percent']) + 10,  # 그래프의 가장 높은 막대 위에 텍스트를 배치
+            text="Median household income: $52,565<br>Mean household income: $79,125",  # 줄 바꿈을 위해 <br> 태그 사용
+            showarrow=False,
+            font=dict(size=12, color="black"),
+            xanchor='center',
+            align='center',  # 텍스트 가운데 정렬
+            bgcolor="white",  # 박스 배경색
+            bordercolor="black",  # 박스 테두리 색
+            borderwidth=1  # 박스 테두리 두께
+        )
+    ]
+)
 ```
 
-##  교육 {.tabset}
+## 교육 
+
+**교육**
+
+## 교육 {height=35%} {.tabset}
 
 ### 18-24
-![](education1.png)
+![](education1.png){style="width:1000px; height:600px;"}
 
 ### 25 이상
-![](education2.png)
+![](education2.png){style="width:1000px; height:600px;"}
 
-# 스토리 라인 1
+
+
+
+# 위치별 주택 가격 지도{#스토리라인1}
+
+## 양의 상관 계수와 음의 상관계수;
+
+**양의 상관 계수, 음의 상관계수**
+
+::: {.columns}
+::: {.column width="100%"}
+## 양의 상관 계수
+![](positive_real.png){width=100%}
+:::
+::: {.column width="100%"}
+## 음의 상관 계수
+![](negative_real.png){width=100%}
+:::
+:::
+
+## 상관계수 설명
+
+**<span style="background-color: NavajoWhite;">(longitude, Year_Built)</span>**가 음수 top 10에 존재! <br>
+→ 위도/경도 별 구간을 나눠서 한번 Year_Built를 보자! <br>
+→ 음의 관계이니 **<span style="background-color: NavajoWhite;">longitude가 증가하면(오른쪽으로 갈수록) 오래 전에 지어진 집</span>**일 것이다.
+
+## year_built
+
+**year_built**
+
+## year_built
+<div><iframe src="house_yearbuilt_map_with_quadrants_clorbar.html" width="100%" height="600px"></iframe></div>
+
+## year_built 설명
+
+동쪽이 서쪽에 비해 **<span style="background-color: NavajoWhite;">오래 전에 지어진 집</span>**이다. 
+
+## Sale_Price
+
+**Sale_Price**
+
+## Sale_Price
+<div><iframe src="house_prices_map_with_quadrants5.html" width="100%" height="600px"></iframe></div>
+
+## Sale_Price 설명
+
+동쪽이 서쪽에 비해 **<span style="background-color: NavajoWhite;">집 가격이 싼 편</span>**이다. 
+
+## neighborhood
+
+**neighborhood**
+
+## neighborhood
+<div><iframe src="neighborhood_2.html" width="100%" height="600px"></iframe></div>
+
+## neighborhood 설명
+
+동쪽이 서쪽에 비해 오래 된 집들이 많고, 집 가격이 비교적 싼 이유는 **<span style="background-color: NavajoWhite;">Old_Town</span>** 때문이다.<br> 
+<br>
+**따라서, Old_Town이 생성된 <span style="background-color: NavajoWhite;">동쪽</span>이 서쪽에 비해 <span style="background-color: NavajoWhite;">집 가격이 싸고 오래된 집들이 많다.</span>**
+
+
+
+
+# 주택 가격 시계열 그래프{#스토리라인2}
+
+## Year Built & Sale Price 그래프
+
+**Year Built & Sale Price 그래프**
+
+## Year Built & Sale Price 그래프
+
+<div><iframe src="Year_Built_plot.html" width="100%" height="600px"></iframe></div>
+
+## Year Built & Sale Price 그래프 설명
+
+연도별 Sale_Price 보면 **<span style="background-color: NavajoWhite;">우상향 그래프</span>**<br>
+다만 **<span style="background-color: NavajoWhite;">이상치</span>**가 존재하기 때문에 이상치로 인한 그래프의 변동을 완화하려면, x축을 5년 또는 10년 단위의 범주로 설정하여 그래프를 더 부드럽게 표현할 수 있다.
+
+## 산포도
+
+**산포도 그래프**
+
+## 산포도
+![](sanpodo.png){style="width:1000px; height:600px;"}
+
+## 산포도 설명
+
+이상치를 정확히 보기 위해 산포도를 그리자 한 가지 튀는 점이 보이는데...<br>
+지어진 지 오래되고 위치가 특별하지는 않지만, 최근 리모델링이 이루어졌고 부지가 크고 공공시설이 잘 갖추어져 있어 집값이 높은 것을 확인할 수 있다. <br>
+<br>
+**따라서, <span style="background-color: NavajoWhite;">집이 최근에 지어질수록 집 가격도 올라가고,</span> 이상치로 인한 그래프의 변동을 완화하는 방법이 있다.**
+
+
+
+
+
+# 회귀분석{#스토리라인3}
+
+## 회귀분석
+
+**회귀분석**
+
+## 지역 한정 선언
+
+회귀분석에 들어가기 앞서, 지역은 Ames의 **<span style="background-color: NavajoWhite;">Old_Town</span>**으로 한정한다. 
+
+## 상관계수 순위
+![](corr_real.png){style="width:1000px; height:600px;"}
+
+## 상관계수 설명
+
+**<span style="background-color: NavajoWhite;">상관계수 낮은 순 top10</span>**
+<br>
+이 상관계수를 가지고 다중회귀분석을 진행한다. 
+<br>
+그 중 R-squared가 높은 Top 5의 결과값만을 불러온 후, p-value가 높은 것들을 배제한다.
+
+## R-squared top 5 {.tabset} 
+
+### Lot_Area & Heating_QC
+![](r_1.jpg){style="width:1000px; height:600px;"}
+<br>
+**coef**: 회귀계수<br>
+**std err**: 표준오차<br>
+**P**: P-Value<br>
+**[0.025  0.975]**: 신뢰구간 <br>
+**const**: 상수항(ax+b에서 b) <br>
+**회귀식(Sale_Price)**: 23,520 + (6.257 × Lot_Area) + (12,650 × Heating_QC) + ϵ(포함하지 않은 모든 변수, 오차)<br>
+
+### Latitude & Lot_Area
+![](r_2.jpg){style="width:1000px; height:600px;"}
+
+### Lot_Area & Bsmt_Full_Bath
+![](r_3.jpg){style="width:1000px; height:600px;"}
+<br>
+**회귀분석 결과 P-Value가 0.05 이상이므로 해당 변수 쌍을 배제한다.**
+<br>
+대립가설(우리가 주장하는 가설): <span style="background-color: NavajoWhite;">Lot_Area와 Bsmt_Full_Bath가 Old_Town의 Sale_Price에 유의미한 영향을 미친다.</span>
+<br>
+귀무가설: <span style="background-color: NavajoWhite;">Lot_Area와 Bsmt_Full_Bath는 Old_Town의 Sale_Price에 영향을 미치지 않는다, 해당 회귀분석 결과는 우연일 뿐이다.</span>
+
+### Longitude & Overall_Cond
+![](r_4.jpg){style="width:1000px; height:600px;"}
+<br>
+**회귀분석 결과 const와 Longitude에서 신뢰구간이 0을 포함하고 있으므로 배제한다.**
+![](r4_ci.png){style="width:1000px; height:600px;"}
+<br>
+신뢰구간에 0이 포함된다: 해당 변수의 회귀계수(coef)가 0일 가능성을 배제할 수 없음을 의미한다. 
+<br>
+즉, <span style="background-color: NavajoWhite;">Longitude는 Old_Town의 Sale_Price에 영향을 미치지 않는다</span>라는 영가설을 기각할 수 없기에 분석에서 제외하였다.
+
+### Garage_Cars & Kitchen_Abvgr
+![](r_5.jpg){style="width:1000px; height:600px;"}
+<br>
+**Kitchen_AbrGr의 신뢰구간에 0이 포함되기에 분석에서 제외한다.**
+
+## 채택 변수
+
+따라서, 종속변수인 Sale_Price를 가장 잘 설명할 수 있는(R-Squared 값이 가장 높은) **<span style="background-color: NavajoWhite;">Lot_Area & Heating_QC를 채택</span>**한다. 
+
+## 채택 변수 R-squared
+
+![](r_1.jpg){style="width:1000px; height:600px;"}
+
+## 채택 변수 설명
+
+**<span style="background-color: NavajoWhite;">Lot_Area(대지 면적)가 1 제곱 피트 늘어날수록 Sale_Price 가 6.257 달러만큼 증가</span>**한다.<br>
+**<span style="background-color: NavajoWhite;">Heating_QC(난방 품질)가 한 단계 오를수록 Sale_Price가 12650 달러만큼 증가</span>**한다.<br>
+<br>
+**따라서, Old_Town 내에서 난방 품질 1단계 상승은 대지 면적 약 2020 제곱 피트만큼의 가치가 있다.**
+
+## Heating_QC 전체 등급 회귀직선
+
+**Heating_QC 전체 등급 회귀직선**<br>
+Sale_Price=23,520+6.257×Lot_Area+12,650×Heating_QC
+
+## Heating_QC 전체 등급 회귀직선
 
 ```{python}
-articles = 100
-comments = 50
-spam_num = 300
-```
+import numpy as np
+import pandas as pd
+import folium
+import branca.colormap as cm
+import plotly.express as px
+# 데이터 불러오기
+hf_df = pd.read_csv("houseprice-with-lonlat.csv")
+hf_df = hf_df.iloc[:, [4,37,72]]  # Lot_Area, Heating_QC,Sale_Price 열 선택
 
-## Row 
+# Heating_QC 값을 숫자 값으로 변환
+quality_mapping = {
+    'Excellent': 5,
+    'Good': 4,
+    'Typical': 3,
+    'Fair': 2,
+    'Poor': 1
+}
+hf_df['Heating_QC'] = hf_df['Heating_QC'].map(quality_mapping)
 
-```{python}
-#| content: valuebox
-#| title: "Articles per day"
-#| icon: pencil
-#| color: primary
-dict(
-  value = articles
+#산포 생성
+
+fig = px.scatter(
+    hf_df,
+    x="Lot_Area",
+    y="Sale_Price",
+    color = "Heating_QC",
+    size_max=10, #기본점 크기 설정
+    trendline="ols"# p.134 회귀직선 그려주기
 )
+
+fig
 ```
 
-```{python}
-#| content: valuebox
-#| title: "Comments per day"
-dict(
-  icon = "chat",
-  color = "primary",
-  value = comments
-)
-```
+## Heating_QC 개별 등급 회귀직선
 
-```{python}
-#| content: valuebox
-#| title: "Spam per day"
-dict(
-  icon = "airplane-engines",
-  color = "#f0330b",
-  value = spam_num
-)
-```
+**Heating_QC 개별 등급 회귀직선**
+
+## Heating_QC 개별 등급 회귀직선
+
+<div><iframe src="heating_qc_regression line.html" width="100%" height="600px"></iframe></div>
+
+## Lot_Area 신뢰구간
+**Lot_Area**<br>
+신뢰구간: 4.9 ~ 7.6 <br>
+회귀계수: 6.3(신뢰구간의 중간)<br>
+표준오차: 0.7<br>
+![](Lot_CI.png){style="width:1000px; height:750px;"}
+
+## Heating_QC 신뢰구간
+**Heating_QC**<br>
+신뢰구간: 7513 ~ 17800 <br>
+회귀계수: 12650(신뢰구간의 중간)<br>
+표준오차: 2608<br>
+![](heat_ci.png){style="width:1000px; height:750px;"}
+
+## 회귀분석 결론
+
+Old_Town의 주택들은 대부분 **오래되었기** 때문에, **난방 수준**이 신축 주택에 비해 **전체적으로 좋지 않을 것**으로 예상된다.<br>
+그렇기에 **난방 품질**이 Old_Town에서 더욱 **높은 가치**를 가지게 되는 것이다.<br>
+
+따라서, **<span style="background-color: NavajoWhite;">Ames Old_Town</span>의 집값을 가장 잘 설명할 수 있는 변수쌍은 <span style="background-color: NavajoWhite;">Lot_Area와 Heating_QC</span>**다.
+
+## Old_Town의 Sale_Price 모평균 추정 시각화
+
+**Old_Town의 Sale_Price 모평균 추정 시각화**
+
+## Old_Town의 Sale_Price 모평균 추정 시각화
+
+![](old_town_price.png){style="width:1000px; height:600px;"}
+
+# 결론{#스토리라인4}
+
+## 위치별 주택 가격 지도 결론
+
+<div style="border-left: 4px solid #007BFF; padding: 10px; background-color: #f0f0f0;">
+  <strong>이것만 꼭 알아두세요! Ames시는요...</strong><br>
+</div><br>
+**Old_Town이 생성된 동쪽**이 서쪽에 비해 **<span style="background-color: NavajoWhite;">집 가격이 싸고 오래된 집들이 많다.</span>**<br>
+집이 **<span style="background-color: NavajoWhite;">최근에 지어질수록 집 가격도 올라가고</span>**, 이상치로 인한 그래프의 변동을 완화하는 방법이 있다.<br>
+**Old_Town**에 있어서 **<span style="background-color: NavajoWhite;">Lot_Area & Heating_QC(대지 면적 & 난방 품질)</span>** 변수쌍이 중요하다.<br>
+![](ending.jpg){style="width:1000px; height:800px;"}

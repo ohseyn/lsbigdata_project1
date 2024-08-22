@@ -1,0 +1,16 @@
+/* 헤더 배경색 변경 */
+.navbar {
+    background-color: #736662; /* 원하는 색상 코드로 변경 */
+}
+
+/* 헤더에서 페이지 클릭 시 활성화된 링크(탭)의 배경색 변경 */
+.navbar .navbar-nav > li > a.active,
+.navbar .navbar-nav > li > a:hover {
+    background-color: #F2E291; /* 클릭한 탭의 배경색 */
+    color: #82D998; /* 텍스트 색상 */
+}
+
+/* 헤더 링크의 기본 상태 텍스트 색상 변경 */
+.navbar .navbar-nav > li > a {
+    color: #C2F2D3; /* 링크의 기본 텍스트 색상 */
+}
