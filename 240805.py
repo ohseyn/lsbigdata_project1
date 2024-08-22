@@ -89,7 +89,7 @@ plt.ylim([0, 300])
 plt.show()
 plt.clf()
 
-!pip install statsmodels
+# !pip install statsmodels
 import statsmodels.api as sm
 
 obs_x = sm.add_constant(obs_x)

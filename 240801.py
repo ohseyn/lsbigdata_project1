@@ -58,7 +58,7 @@ np.sum(np.abs(y-y_hat)) # 절대거리의 합(거리)이 작으면 작을수록 
 np.sum((y-y_hat)**2) # 절대거리의 합(거리)이 작으면 작을수록 성능이 좋음 # 제곱
 
 #=================================================
-!pip install scikit-learn
+# !pip install scikit-learn
 
 import numpy as np
 from sklearn.linear_model import LinearRegression
