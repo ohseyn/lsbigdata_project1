@@ -12,7 +12,7 @@ house_train.shape
 house_test.shape
 train_n=len(house_train)
 
-# 통합 df 만들기 + 더미코딩(2,3번번)
+# 통합 df 만들기 + 더미코딩(2,3번)
 df = pd.concat([house_train, house_test], ignore_index=True)
 df = pd.get_dummies(
     df,
