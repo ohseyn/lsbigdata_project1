@@ -185,7 +185,7 @@ from sklearn.linear_model import LinearRegression
 np.random.seed(2024)
 # -4에서 4까지의 균등 분포에서 30개의 무작위 값을 생성
 x = uniform.rvs(size=30, loc=-4, scale=8)
-# x에 대한 사인 함수를 계산하고, 정규 분포에서 랜덤 노이즈를 추가하여 y 값을 생성
+# x에 대한 sin 함수를 계산하고, 정규 분포에서 랜덤 노이즈를 추가하여 y 값을 생성
 y = np.sin(x) + norm.rvs(size=30, loc=0, scale=0.3)
 
 import pandas as pd
@@ -220,7 +220,7 @@ valid_y = valid_df["y"]
 
 from sklearn.linear_model import Lasso
 
-# 각각 검증 데이터와 훈련 데이터에 대한 성능 평가 결과를 저장
+# 각각 train와 valid에 대한 성능 평가 결과를 저장
 val_result=np.repeat(0.0, 100)
 tr_result=np.repeat(0.0, 100)
 
@@ -238,7 +238,7 @@ for i in np.arange(0, 100):
     # 예측 오류(제곱 오차 합)를 계산
     perf_train=sum((train_df["y"] - y_hat_train)**2)
     perf_val=sum((valid_df["y"] - y_hat_val)**2)
-    # 훈련 데이터와 검증 데이터에 대한 성능 결과를 저장
+    # train과 valid에 대한 성능 결과를 저장
     tr_result[i]=perf_train
     val_result[i]=perf_val
 
