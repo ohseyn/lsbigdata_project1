@@ -115,11 +115,11 @@ result.x # beta0, beta1, beta2
 # minimize로 Lasso beta 구하기(패널티 있는 손실함수)
 from scipy.optimize import minimize
 
-# (y-X*beta_hat)T(y-X*beta_hat): 절대값 -> 함수화
-# a: (y-X*beta_hat)
+# (y-X*beta_hat)T(y-X*beta_hat): 절대값(정사각형 넓이) -> 함수화
+# a: (y-X*beta_hat) = (y-y_hat)
 def line_perform_lasso(beta):
     beta = np.array(beta).reshape(3, 1)
-    a = (y - matX @ beta)
+    a = (y - matX @ beta) # (n,1)
     return (a.transpose() @ a) + 3*np.abs(beta).sum()
 
 # 들어가는 숫자는 beta0, beta1, beta2
@@ -143,6 +143,9 @@ from scipy.optimize import minimize
 def line_perform_lasso(beta):
     beta = np.array(beta).reshape(3, 1)
     a = (y - matX @ beta)
+    # 1부터 가져온 이유는 람다 숫자가 클 때
+    # beta0 값에 있음 숫자가 커지므로 우리는 숫자를 작게 하기 위해서는
+    # beta0를 빼고 넣는다. 이때, beta0에 y값의 평균이 들어감 
     return (a.transpose() @ a) + 500*np.abs(beta[1:]).sum()
 
 # 들어가는 숫자는 beta0, beta1, beta2
@@ -220,7 +223,7 @@ valid_y = valid_df["y"]
 
 from sklearn.linear_model import Lasso
 
-# 각각 train와 valid에 대한 성능 평가 결과를 저장
+# 각각 train와 valid에 대한 성능 평가 결과를 저장하기 위한 벡터 생성
 val_result=np.repeat(0.0, 100)
 tr_result=np.repeat(0.0, 100)
 
