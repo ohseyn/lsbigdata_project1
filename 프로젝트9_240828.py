@@ -185,8 +185,8 @@ sub_df.to_csv("submission/sample_submission_berry_3.csv", index=False)
 ridge = pd.read_csv("Data/ridge.csv")
 lasso = pd.read_csv("Data/lasso.csv")
 
-yield_ri = ridge["yield"] # 예진
-yield_la = lasso["yield"] # 서연
+yield_ri = ridge["yield"]
+yield_la = lasso["yield"]
 
 yield_total = ((yield_ri * 7) + (yield_la * 3))/10
 
