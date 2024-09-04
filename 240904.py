@@ -170,5 +170,5 @@ print(f'Mean Squared Error: {mse}')
 print(f'R^2 Score: {r2}')
 
 # 테스트 데이터의 실제 값과 예측 값 시각화
-plt.scatter(X_test, y_test, color='blue', label='Actual Values')
-plt.scatter(X_test, y_pred, color='red', label='Predicted Values')
+plt.scatter(X_test, y_test, color='blue')
+plt.scatter(X_test, y_pred, color='red')
