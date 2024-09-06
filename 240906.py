@@ -22,7 +22,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 sns.scatterplot(data = df, x = 'x1', y = 'x2', hue = "y")
-# plt.axvline(x = 45)
+# plt.axvline(x = 45, color="purple")
 plt.axvline(x = 42.3, color="purple")
 
 # 나누기 전 현재의 엔트로피?
@@ -72,25 +72,28 @@ entropy_values = np.zeros(len(input_x))
 for i, x in enumerate(input_x):
     entropy_values[i] = my_entropy(x)
 optimal_entropy = input_x[np.argmin(entropy_values)]
+entropy_values[102]
 
-# def entropy(col):
-#     entropy_i = []
-#     for i in range(len(df[col].unique())):
-#         df_left = df[df[col]< df[col].unique()[i]]
-#         df_right = df[df[col]>= df[col].unique()[i]]
-#         info_df_left = df_left[['y']].value_counts() / len(df_left)
-#         info_df_right = df_right[['y']].value_counts() / len(df_right)
-#         after_e_left = -sum(info_df_left*np.log2(info_df_left))
-#         after_e_right = -sum(info_df_right*np.log2(info_df_right))
-#         entropy_i.append(after_e_left * len(df_left)/len(df) + after_e_right * len(df_right)/len(df))
-#     return entropy_i
+#===================================================
 
-# entropy_df = pd.DataFrame({
-#     'standard': df['x1'].unique(),
-#     'entropy' : entropy('x1')
-#     })
+def entropy(col):
+    entropy_i = []
+    for i in range(len(df[col].unique())):
+        df_left = df[df[col]< df[col].unique()[i]]
+        df_right = df[df[col]>= df[col].unique()[i]]
+        info_df_left = df_left[['y']].value_counts() / len(df_left)
+        info_df_right = df_right[['y']].value_counts() / len(df_right)
+        after_e_left = -sum(info_df_left*np.log2(info_df_left))
+        after_e_right = -sum(info_df_right*np.log2(info_df_right))
+        entropy_i.append(after_e_left * len(df_left)/len(df) + after_e_right * len(df_right)/len(df))
+    return entropy_i
 
-# entropy_df.iloc[np.argmin(entropy_df['entropy']),:]
+entropy_df = pd.DataFrame({
+    'standard': df['x1'].unique(),
+    'entropy' : entropy('x1')
+    })
+
+entropy_df.iloc[np.argmin(entropy_df['entropy']),:]
 
 #===================================================
 # 펭귄 데이터 부리길이 예측 모형 만들기
@@ -156,6 +159,10 @@ from sklearn.metrics import confusion_matrix
 y_true = np.array(['A', 'A', 'C', 'A', 'C', 'C', 'C'])
 y_pred1 = np.array(['A', 'C', 'A', 'A', 'A', 'C', 'C'])
 y_pred2 = np.array(['C', 'A', 'A', 'A', 'C', 'C', 'C'])
+
+conf_mat=confusion_matrix(y_true=y_true, 
+                          y_pred=y_pred1,
+                          labels=["A", "C"])
 
 conf_mat=confusion_matrix(y_true=y_true, 
                           y_pred=y_pred2,
