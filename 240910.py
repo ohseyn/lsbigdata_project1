@@ -19,23 +19,48 @@ print(model.summary())
 # LI: 1.2 BLAST: 1.1 세포/μL TEMP: 0.9
 log_odds = (64.2581 + (30.8301* 0.65) + (24.6863 * 0.45) + (-24.9745 * 0.55) + (4.3605*1.2) + (-0.0115 * 1.1) + (-100.1734 * 0.9))
 odds = np.exp(log_odds) # 0.03817459641135519
-p_hat = odds / (odds + 1) # 0.03677088280074742
 
 # 5. 위 환자의 혈액에서 백혈병 세포가 관측되지 않은 확률은 얼마?
-1-p_hat # 0.9632291171992526
+p_hat = odds / (odds + 1) # 0.03677088280074742
 
 # 6. TEMP 변수의 계수는 얼마이며, 
 # 해당 계수를 사용해서 TEMP 변수가 백혈병 치료에 대한 영향을 설명
+
 # -100.1734
-# np.exp(100.1734)은 오즈비로 TEMP가 1단위 증가할 때 마다 
-# 백혈병 관측이 안됨에 대한 오즈가 오즈비만큼 증가하는 것
-# 즉 온도가 올라갈수록 백혈병 세포가 관측 안 될 확률이 증가하는 것
+# np.exp(-100.1734): 0에 가까운 값 
+# 이는 체온이 1단위 상승할 때 백혈병 세포가 관측되지 않을 확률이 
+# 거의 없어지는 것을 의미(오즈비만큼 변동)
+# 온도가 높아질수록 백혈병 세포가 관측될 확률 높아짐.
 
 # 7. CELL 변수의 99% 오즈비에 대한 신뢰구간
 30.8301/52.135
-2*(1-norm.cdf(0.5913512995108853, 0, 1))
-30.8301 + 2.58*52.135 # 165.33839999999998
-30.8301 - 2.58*52.135 # -103.67819999999999
+np.exp(30.8301 + 2.58*52.135) # 165.33839999999998
+np.exp(30.8301 - 2.58*52.135) # -103.67819999999999
 
 # 8. 주어진 데이터에 대하여 로지스틱 회귀 모델의 예측 확률을 구한 후, 
 # 50% 이상인 경우 1로 처리하여, 혼동 행렬 구하기
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+
+train = leukemia_df.drop(columns=('REMISS'))
+
+y_pred = model.predict(train)
+result = pd.DataFrame({'y_pred' : y_pred})
+result['result'] = np.where(result['y_pred']>=0.5, 1,0)
+
+conf_mat = confusion_matrix(y_true = leukemia_df['REMISS'], y_pred = result['result'], labels=[1,0])
+p = ConfusionMatrixDisplay(confusion_matrix = conf_mat, display_labels = ('1', '0'))
+p.plot(cmap="Blues")
+
+# 9. 해당 모델의 Accuracy는 얼마?
+(5+15)/(5+3+4+15)
+
+from sklearn.metrics import accuracy_score, f1_score
+accuracy_score(leukemia_df['REMISS'], result['result'])
+
+# 10. 해당 모델의 F1 Score를 구하기
+precision = 5/(5+3)
+recall = 5/(5+4)
+f1 = 2 / (1/precision + 1/recall)
+
+f1_score(leukemia_df['REMISS'], result['result'])
