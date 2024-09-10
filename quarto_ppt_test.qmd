@@ -1,0 +1,195 @@
+---
+title: "Quarto PPT 만들기"
+author: "Ohseyn"
+format:
+  revealjs:
+    theme: moon
+    incremental: false
+    chalkboard: true 
+---
+
+## 농담곰
+
+좋아
+
+::: {.incremental}
+
+- Eat spaghetti
+- Drink wine
+
+:::
+
+## 슬라이드 네비게이션 {.smaller}
+
+- overview: O, ESC
+- zoom in: ALT + 클릭
+- full screen: F
+- PDF 추출 모드: E
+- Speaker 모드: S
+- 슬라이드 내용 찾기 모드: CTLR + SHIFT + F
+
+## 저녁 {.scrollable}
+
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+- 뭐지
+
+## Slide Title
+
+- Green ^[A footnote]
+- Brown
+- Purple
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+## 영역 테스트
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+![농담곰!](damgom_test.jpg)
+:::
+
+::: {.column width="60%"}
+
+```{python}
+#| code-line-numbers: "3,5"
+#| echo: true
+import numpy as np # <1>
+import matplotlib.pyplot as plt
+x = np.linspace(-5,5,100)
+y = x**2
+plt.scatter(x, y)
+```
+1. 넘파이를 로드합니다.
+
+:::
+
+::::
+
+---
+
+::: {.panel-tabset}
+
+### Tab A
+
+```{.python code-line-numbers="|4|5"}
+#| echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(-5,5,100)
+y = x**2
+plt.scatter(x, y)
+```
+
+### Tab B
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(-5,5,100)
+y = x**2
+plt.scatter(x, y)
+```
+
+:::
+
+## Speaker note {background-color="#778899"}
+
+스피커뷰 노트가 있는 슬라이드입니다.
+S키를 누르면 스피커뷰 노트를 볼 수 있습니다.
+
+::: {.notes}
+스피커뷰 노트가 있는 슬라이드입니다.
+S키를 누르면 스피커뷰 노트를 볼 수 있습니다.
+농담곰~
+:::
+
+## Damgom stack
+
+::: {.r-stack}
+![](damgom_test.jpg){.fragment width="450" height="300"}
+
+![](damgom_test2.jpg){.fragment width="300" height="450"}
+
+![](damgom_test3.jpg){.fragment width="400" height="400"}
+:::
+
+## Animation test {auto-animate=true}
+
+::: {style="margin-top: 100px;"}
+Animating content
+:::
+
+## Animation test {auto-animate=true}
+
+::: {style="margin-top: 200px; font-size: 3em; color: red;"}
+Animating content
+:::
+
+## Code Animation {auto-animate="true"}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+})
+```
+
+## Code Animation {auto-animate=true}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+  barplot(WorldPhones[,input$region]*1000, 
+          main=input$region,
+          ylab="Number of Telephones",
+          xlab="Year")
+})
+```
+
+## Movement Animations {auto-animate=true}
+
+Animation
+
+## Movement Animations {auto-animate=true}
+
+Implicit
+
+Animation
+
+## Element Matching {auto-animate=true auto-animate-easing="ease-in-out"}
+
+::: {.r-hstack}
+::: {data-id="box1" auto-animate-delay="0" style="background: #2780e3; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #3fb618; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 200px; height: 150px; margin: 10px;"}
+:::
+:::
+
+## {auto-animate=true auto-animate-easing="ease-in-out"}
+
+::: {.r-stack}
+::: {data-id="box1" style="background: #2780e3; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #3fb618; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+:::
