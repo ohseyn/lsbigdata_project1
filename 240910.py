@@ -10,6 +10,7 @@ print(model.summary())
 
 # 2. 해당 모델은 통계적으로 유의한가요? 그 이유를 검정통계량를 사용해서 설명
 # LLR p-value가 0.05보다 작아서 모델 자체는 유의
+# 모든 베타가 0이라고 할 수 없기에 유의하다.
 
 # 3. 유의수준이 0.2를 기준으로 통계적으로 유의한 변수는 몇개이며, 어느 변수인지
 # 2개. LI, TEMP
@@ -64,3 +65,24 @@ recall = 5/(5+4)
 f1 = 2 / (1/precision + 1/recall)
 
 f1_score(leukemia_df['REMISS'], result['result'])
+
+#=====================================================
+# 앙상블, RandomForests
+from sklearn.ensemble import BaggingClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+bagging_model = BaggingClassifier(DecisionTreeClassifier(),
+                                  n_estimators=100,
+                                  max_samples=100,
+                                  n_jobs=-1,
+                                  random_state=42)
+
+# n_estimator: Bagging에 사용될 모델 개수
+# max_sample: 데이터셋 만들 때 뽑을 표본크기
+# bagging_model.fit(X_train, y_train)
+
+from sklearn.ensemble import RandomForestClassifier
+
+rf_model = RandomForestClassifier(n_estimators=50,
+                                max_leaf_node=16,
+                                n_jobs=-1, random_state=42)

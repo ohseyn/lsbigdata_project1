@@ -181,7 +181,7 @@ Animation
 :::
 :::
 
-## {auto-animate=true auto-animate-easing="ease-in-out"}
+## Element Matching {auto-animate=true auto-animate-easing="ease-in-out"}
 
 ::: {.r-stack}
 ::: {data-id="box1" style="background: #2780e3; width: 350px; height: 350px; border-radius: 200px;"}
