@@ -51,7 +51,7 @@ b[(a > 2000) & (a < 5000)]
 a[(a > 2000) & (a < 5000)] # a[조건을 만족하는 논리형 벡터]
 (a > 2000) & (a < 5000)
 
-!pip install pydataset
+# !pip install pydataset
 import pydataset
 
 df = pydataset.data('mtcars')

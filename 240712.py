@@ -58,14 +58,14 @@ def my_g(x):
 
 my_g(math.pi)
 
-def fname(`indent('.') ? 'self' : ''`):
-    """docstring for fname"""
-    # TODO: write code...
+# def fname(`indent('.') ? 'self' : ''`):
+#     """docstring for fname"""
+#     # TODO: write code...
    
-# fcn -> Shift + Space
-def frame(input):
-    contents
-    return
+# # fcn -> Shift + Space
+# def frame(input):
+#     contents
+#     return
 
 # pd + Shift + Space -> import pandas as pd
 # np + Shift + Space -> import numpy as np
